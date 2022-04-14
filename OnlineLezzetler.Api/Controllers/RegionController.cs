@@ -104,19 +104,19 @@ namespace OnlineLezzetler.Api.Controllers
         //    }
         //}
 
-        //[HttpPost, Route("Regions/Search")]
-        //public ActionResult SearchRegion(RegionSearchRequest search)
-        //{
-        //    var results = _regionService.SearchRegion(search);
+        [HttpPost, Route("Regions/Search")]
+        public ActionResult SearchRegion(RegionSearchRequest search)
+        {
+            var results = _regionService.SearchRegion(search);
 
-        //    if (results.ResultType == ResultType.Success)
-        //    {
-        //        return Ok(results.ResultObject);
-        //    }
-        //    else
-        //    {
-        //        return NotFound(results.ResultObject);
-        //    }
-        //}
+            if (results.ResultType == ResultType.Success)
+            {
+                return Ok(results.ResultObject);
+            }
+            else
+            {
+                return NotFound(results.ResultObject);
+            }
+        }
     }
 }

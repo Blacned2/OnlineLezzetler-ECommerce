@@ -128,10 +128,10 @@ namespace OnlineLezzetler.Business.Concrete
             try
             {
                 var results = (from u in _context.Regions
-                               where request.CountryName == null || u.Country.CountryName.Contains(request.CountryName) &&
-                               request.RegionName == null || u.RegionDescription.Contains(request.RegionName)
-                               select u).ToList();
-
+                               where u.IsActive == true && u.Country.CountryName.Contains(request.CountryName)
+                               && (string.IsNullOrEmpty(request.RegionName) || u.RegionDescription.Contains(request.RegionName))
+                               select u).ToList(); 
+                               
                 if (results.Count > 0)
                 {
                     searchResult.ResultMessage = String.Empty;
