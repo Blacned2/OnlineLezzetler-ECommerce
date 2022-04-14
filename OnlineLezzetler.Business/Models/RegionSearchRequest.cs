@@ -6,9 +6,10 @@ using System.Threading.Tasks;
 
 namespace OnlineLezzetler.Business.Models
 {
-    public class CountrySearchRequest
+    public class RegionSearchRequest
     {
+        public string? RegionName { get; set; }
         public string? CountryName { get; set; }
-        public string? CountryShortName { get; set; }
+
     }
 }

@@ -16,12 +16,12 @@ namespace OnlineLezzetler.Business.AutoMapper.Profiles
             CreateMap<Region, RegionDto>()
                 .ForMember(dest => dest.RegionID, act => act.MapFrom(src => src.RegionID))
                 .ForMember(dest => dest.RegionDescription, act => act.MapFrom(src => src.RegionDescription))
-                .ForMember(dest => dest.Country, act => act.MapFrom(src => src.Country));
+                .ForMember(dest => dest.CountryID, act => act.MapFrom(src => src.CountryID));
 
             CreateMap<RegionDto, Region>()
                 .ForMember(dest => dest.RegionID, act => act.MapFrom(src => src.RegionID))
                 .ForMember(dest => dest.RegionDescription, act => act.MapFrom(src => src.RegionDescription))
-                .ForMember(dest => dest.Country, act => act.MapFrom(src => src.Country));
+                .ForMember(dest => dest.CountryID, act => act.MapFrom(src => src.CountryID));
         }
     }
 }

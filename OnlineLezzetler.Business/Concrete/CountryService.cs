@@ -31,7 +31,8 @@ namespace OnlineLezzetler.Business.Concrete
 
                 if(result == null)
                 {
-                    _context.Countries.Add(_mapper.Map<Country>(country));
+                    result = _mapper.Map<Country>(country);
+                    _context.Countries.Add(result);
                     _context.SaveChanges();
                     searchResult.ResultMessage = String.Empty;
                     searchResult.ResultObject = country;

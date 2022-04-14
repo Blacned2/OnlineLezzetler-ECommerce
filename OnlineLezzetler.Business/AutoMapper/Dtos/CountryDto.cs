@@ -10,10 +10,6 @@ namespace OnlineLezzetler.Business.AutoMapper.Dtos
     {
         public int CountryID { get; set; }
         public string CountryName { get; set; }
-        public string CountryShortName
-        {
-            get { return CountryName; }
-            set { CountryName = value.ToLower(); }    
-        }
+        public string CountryShortName { get; set; }
     }
 }

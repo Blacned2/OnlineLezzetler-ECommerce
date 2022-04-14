@@ -30,11 +30,15 @@ namespace OnlineLezzetler.Api
             {
                 mc.AddProfile(new CategoryProfile());
                 mc.AddProfile(new CityProfile());
+                mc.AddProfile(new CountryProfile());
+                mc.AddProfile(new RegionProfile());
             });
 
             IMapper mapper = mapperConfig.CreateMapper();
             services.AddSingleton(mapper);
             services.AddScoped<ICategoryService, CategoryService>();
+            services.AddScoped<ICountryService, CountryService>();
+            services.AddScoped<IRegionService, RegionService>();
             services.AddDbContext<OnlineLezzetlerContext>(option => option.UseSqlServer(Configuration.GetConnectionString("OnlineLezzetler")));
             services.AddControllers();
             services.AddSwaggerGen(c =>
@@ -48,7 +52,6 @@ namespace OnlineLezzetler.Api
                     builder => builder.AllowAnyOrigin()
                         .AllowAnyMethod()
                         .AllowAnyHeader());
-
             });
         }
 
