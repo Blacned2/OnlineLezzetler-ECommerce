@@ -10,8 +10,8 @@ namespace OnlineLezzetler.Business.AutoMapper.Dtos
     public class CityDto
     {
         public int CityID { get; set; }
+        public int RegionID { get; set; }
         public string CityName { get; set; }
         public string PostalCode { get; set; }
-        public virtual Region Region { get; set; }
     }
 }

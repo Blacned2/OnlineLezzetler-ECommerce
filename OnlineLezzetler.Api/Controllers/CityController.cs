@@ -3,38 +3,53 @@ using Microsoft.AspNetCore.Mvc;
 using OnlineLezzetler.Business.Abstract;
 using OnlineLezzetler.Business.AutoMapper.Dtos;
 using OnlineLezzetler.Business.Models;
+using OnlineLezzetler.Data.Models;
 using System.Collections.Generic;
 
 namespace OnlineLezzetler.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class CountryController : ControllerBase
+    public class CityController : ControllerBase
     {
-        private readonly ICountryService _countryService;
-        public CountryController(ICountryService countryService)
+        private readonly ICityService _cityService;
+        public CityController(ICityService cityService)
         {
-            this._countryService = countryService;
+            this._cityService = cityService;
         }
 
         [HttpGet]
-        public ActionResult<List<CountryDto>> CountryList()
+        public ActionResult<List<CityDto>> GetCityList()
         {
-            var countries = _countryService.GetCountries();
-            if (countries.ResultType == ResultType.Success)
+            var cities = _cityService.GetCities();
+            if (cities.ResultType == ResultType.Success)
             {
-                return Ok(countries.ResultObject);
+                return Ok(cities.ResultObject);
             }
             else
             {
-                return NotFound(countries.ResultObject);
+                return NotFound(cities.ResultObject);
+            }
+        }
+
+        [HttpGet,Route("GetCityListsWithRelations")]
+        public ActionResult<List<City>> GetCityListWithRelations()
+        {
+            var cities = _cityService.GetCitiesWithRelations();
+            if (cities.ResultType == ResultType.Success)
+            {
+                return Ok(cities.ResultObject);
+            }
+            else
+            {
+                return NotFound(cities.ResultObject);
             }
         }
 
         [HttpGet, Route("{id}")]
-        public ActionResult GetSingleCountry(int id)
+        public ActionResult GetCity(int id)
         {
-            var result = _countryService.GetCountry(id);
+            var result = _cityService.GetCity(id);
 
             if (result.ResultType == ResultType.Success)
             {
@@ -47,9 +62,9 @@ namespace OnlineLezzetler.Api.Controllers
         }
 
         [HttpPost]
-        public ActionResult AddCountry(CountryDto Country)
+        public ActionResult AddCity(CityDto city)
         {
-            var result = _countryService.AddCountry(Country);
+            var result = _cityService.AddCity(city);
 
             if (result.ResultType == ResultType.Success)
             {
@@ -62,9 +77,9 @@ namespace OnlineLezzetler.Api.Controllers
         }
 
         [HttpDelete]
-        public ActionResult DeleteCountry(int id)
+        public ActionResult DeleteCity(int id)
         {
-            var result = _countryService.DeleteCountry(id);
+            var result = _cityService.DeleteCity(id);
 
             if (result.ResultType == ResultType.Success)
             {
@@ -77,9 +92,9 @@ namespace OnlineLezzetler.Api.Controllers
         }
 
         [HttpPut, Route("{id}")]
-        public ActionResult EditCountry(int id, CountryDto country)
+        public ActionResult EditCity(int id, CityDto city)
         {
-            var result = _countryService.EditCountry(id, country);
+            var result = _cityService.EditCity(id, city);
 
             if (result.ResultType == ResultType.Success)
             {
@@ -92,9 +107,9 @@ namespace OnlineLezzetler.Api.Controllers
         }
 
         [HttpPost, Route("Search")]
-        public ActionResult SearchCountry(CountrySearchRequest search)
+        public ActionResult SearchCity(CitySearchRequest search)
         {
-            var results = _countryService.SearchCountry(search);
+            var results = _cityService.SearchCity(search);
 
             if (results.ResultType == ResultType.Success)
             {

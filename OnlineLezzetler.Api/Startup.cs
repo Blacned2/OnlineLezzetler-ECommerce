@@ -39,6 +39,7 @@ namespace OnlineLezzetler.Api
             services.AddScoped<ICategoryService, CategoryService>();
             services.AddScoped<ICountryService, CountryService>();
             services.AddScoped<IRegionService, RegionService>();
+            services.AddScoped<ICityService, CityService>();
             services.AddDbContext<OnlineLezzetlerContext>(option => option.UseSqlServer(Configuration.GetConnectionString("OnlineLezzetler")));
             services.AddControllers();
             services.AddSwaggerGen(c =>
