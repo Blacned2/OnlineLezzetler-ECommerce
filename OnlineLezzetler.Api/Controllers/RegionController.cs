@@ -17,7 +17,7 @@ namespace OnlineLezzetler.Api.Controllers
             this._regionService = regionService;
         }
 
-        [HttpGet, Route("Regions")]
+        [HttpGet]
         public ActionResult<List<RegionDto>> RegionList()
         {
             var Regions = _regionService.GetRegions();
@@ -44,22 +44,22 @@ namespace OnlineLezzetler.Api.Controllers
             }
         }
 
-        //[HttpGet, Route("Region/{id}")]
-        //public ActionResult GetSingleRegion(int id)
-        //{
-        //    var result = _regionService.GetRegion(id);
+        [HttpGet, Route("{id}")]
+        public ActionResult GetSingleRegion(int id)
+        {
+            var result = _regionService.GetRegion(id);
 
-        //    if (result.ResultType == ResultType.Success)
-        //    {
-        //        return Ok(result.ResultObject);
-        //    }
-        //    else
-        //    {
-        //        return NotFound(result.ResultObject);
-        //    }
-        //}
+            if (result.ResultType == ResultType.Success)
+            {
+                return Ok(result.ResultObject);
+            }
+            else
+            {
+                return NotFound(result.ResultObject);
+            }
+        }
 
-        [HttpPost, Route("Regions/Add")]
+        [HttpPost]
         public ActionResult AddRegion(RegionDto region)
         {
             var result = _regionService.AddRegion(region);
@@ -74,37 +74,23 @@ namespace OnlineLezzetler.Api.Controllers
             }
         }
 
-        //[HttpDelete, Route("Regions/Delete")]
-        //public ActionResult DeleteRegion(int id)
-        //{
-        //    var result = _regionService.DeleteRegion(id);
+        [HttpDelete]
+        public ActionResult DeleteRegion(int id)
+        {
+            var result = _regionService.DeleteRegion(id);
 
-        //    if (result.ResultType == ResultType.Success)
-        //    {
-        //        return Ok();
-        //    }
-        //    else
-        //    {
-        //        return BadRequest();
-        //    }
-        //}
+            if (result.ResultType == ResultType.Success)
+            {
+                return Ok(result.ResultObject);
+            }
+            else
+            {
+                return BadRequest(result.ResultObject);
+            }
+        }
 
-        //[HttpPut, Route("Regions/Edit/{id}")]
-        //public ActionResult EditRegion(int id, RegionDto Region)
-        //{
-        //    var result = _regionService.EditRegion(id, Region);
-
-        //    if (result.ResultType == ResultType.Success)
-        //    {
-        //        return Ok(result.ResultObject);
-        //    }
-        //    else
-        //    {
-        //        return BadRequest(result.ResultObject);
-        //    }
-        //}
-
-        [HttpPost, Route("Regions/Search")]
+        
+        [HttpPost, Route("Search")]
         public ActionResult SearchRegion(RegionSearchRequest search)
         {
             var results = _regionService.SearchRegion(search);

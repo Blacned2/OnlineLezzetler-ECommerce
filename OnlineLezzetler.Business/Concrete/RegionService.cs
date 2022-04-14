@@ -30,11 +30,20 @@ namespace OnlineLezzetler.Business.Concrete
                               where u.RegionDescription.ToLower() == region.RegionDescription.ToLower()
                               select u).FirstOrDefault();
 
-                if (result != null)
+                if (result != null && result.IsActive == false)
+                {
+                    searchResult.ResultMessage = String.Empty;
+                    result.IsActive = true;
+                    _context.Regions.Update(result);
+                    _context.SaveChanges();
+                    searchResult.ResultObject = region;
+                    searchResult.ResultType = ResultType.Success;
+                }
+                else if (result != null && result.IsActive == true)
                 {
                     searchResult.ResultMessage = "Already exist !";
-                    searchResult.ResultObject = region;
                     searchResult.ResultType = ResultType.Warning;
+                    searchResult.ResultObject = _mapper.Map<RegionDto>(result);
                 }
                 else
                 {
@@ -56,7 +65,62 @@ namespace OnlineLezzetler.Business.Concrete
 
         public SearchResult<bool> DeleteRegion(int id)
         {
-            throw new NotImplementedException();
+            SearchResult<bool> searchResult = new SearchResult<bool>();
+
+            try
+            {
+                var result = _context.Regions.Find(id);
+
+                if(result != null)
+                {
+                    result.IsActive = false;
+                    _context.Update(result);
+                    _context.SaveChanges();
+                    searchResult.ResultMessage = String.Empty;
+                    searchResult.ResultObject = true;
+                    searchResult.ResultType = ResultType.Success;
+                }
+                else
+                {
+                    searchResult.ResultMessage = "Not Found !";
+                    searchResult.ResultType = ResultType.Warning;
+                    searchResult.ResultObject = false;
+                }
+            }
+            catch (Exception ex)
+            {
+                searchResult.ResultMessage = ex.Message;
+                searchResult.ResultType = ResultType.Error;
+            }
+            return searchResult;
+        }
+
+        public SearchResult<RegionDto> GetRegion(int id)
+        {
+            SearchResult<RegionDto> searchResult = new SearchResult<RegionDto>();
+
+            try
+            {
+                var result = _context.Regions.Find(id);
+
+                if (result != null)
+                {
+                    searchResult.ResultMessage = String.Empty;
+                    searchResult.ResultObject = _mapper.Map<RegionDto>(result);
+                    searchResult.ResultType = ResultType.Success;
+                }
+                else
+                {
+                    searchResult.ResultMessage = "Not Found !";
+                    searchResult.ResultType = ResultType.Warning;
+                }
+            }
+            catch (Exception ex)
+            {
+                searchResult.ResultMessage = ex.Message;
+                searchResult.ResultType = ResultType.Error;
+            }
+            return searchResult;
         }
 
         public SearchResult<List<RegionDto>> GetRegions()
