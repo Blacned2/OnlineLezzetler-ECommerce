@@ -6,9 +6,7 @@ using OnlineLezzetler.Data;
 using OnlineLezzetler.Data.Models;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Linq; 
 
 namespace OnlineLezzetler.Business.Concrete
 {
@@ -50,7 +48,7 @@ namespace OnlineLezzetler.Business.Concrete
                 }
                 else
                 {
-                    searchResult.ResultMessage = "Kategori Mevcut !";
+                    searchResult.ResultMessage = "It is already exist !";
                     searchResult.ResultObject = country;
                     searchResult.ResultType = ResultType.Warning;
                 }
@@ -82,7 +80,7 @@ namespace OnlineLezzetler.Business.Concrete
                 }
                 else
                 {
-                    searchResult.ResultMessage = "Bulunamadi";
+                    searchResult.ResultMessage = "Not found !";
                     searchResult.ResultObject = false;
                     searchResult.ResultType = ResultType.Error;
                 }
@@ -122,9 +120,9 @@ namespace OnlineLezzetler.Business.Concrete
                 }
                 else
                 {
-                    searchResult.ResultMessage = "Error";
+                    searchResult.ResultMessage = "Not Found !";
                     searchResult.ResultObject = null;
-                    searchResult.ResultType = ResultType.Error;
+                    searchResult.ResultType = ResultType.Warning;
                 }
             }
             catch (Exception ex)
@@ -154,9 +152,9 @@ namespace OnlineLezzetler.Business.Concrete
                 }
                 else
                 {
-                    searchResult.ResultMessage = "Empty";
+                    searchResult.ResultMessage = "Not found !";
                     searchResult.ResultObject = null;
-                    searchResult.ResultType = ResultType.Error;
+                    searchResult.ResultType = ResultType.Warning;
                 }
             }
             catch (Exception ex)
@@ -183,7 +181,7 @@ namespace OnlineLezzetler.Business.Concrete
                 }
                 else
                 {
-                    searchResult.ResultMessage = "Bulunamadi";
+                    searchResult.ResultMessage = "Not found !";
                     searchResult.ResultObject = null;
                     searchResult.ResultType = ResultType.Warning;
                 }
@@ -216,7 +214,7 @@ namespace OnlineLezzetler.Business.Concrete
                 }
                 else
                 {
-                    searchResult.ResultMessage = "Arattiginiz sonuc bulunamadi";
+                    searchResult.ResultMessage = "Not found !";
                     searchResult.ResultType = ResultType.Warning;
                 }
             }

@@ -6,9 +6,7 @@ using OnlineLezzetler.Data;
 using OnlineLezzetler.Data.Models;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Linq; 
 
 namespace OnlineLezzetler.Business.Concrete
 {
@@ -43,7 +41,7 @@ namespace OnlineLezzetler.Business.Concrete
                 }
                 else if (result != null && result.IsDeleted == false)
                 {
-                    searchResult.ResultMessage = "Ayni kategori mevcut!";
+                    searchResult.ResultMessage = "The category is already exist !";
                     searchResult.ResultObject = null;
                     searchResult.ResultType = ResultType.Error;
                 }
@@ -82,9 +80,9 @@ namespace OnlineLezzetler.Business.Concrete
                 }
                 else
                 {
-                    searchResult.ResultMessage = "Bulunamadi !";
+                    searchResult.ResultMessage = "Not Found !";
                     searchResult.ResultObject = false;
-                    searchResult.ResultType = ResultType.Error;
+                    searchResult.ResultType = ResultType.Warning;
                 }
             }
             catch (Exception ex)
@@ -122,8 +120,8 @@ namespace OnlineLezzetler.Business.Concrete
                 }
                 else
                 {
-                    searchResult.ResultMessage = "Bulunamadi !";
-                    searchResult.ResultType = ResultType.Error;
+                    searchResult.ResultMessage = "Not Found !";
+                    searchResult.ResultType = ResultType.Warning;
                     searchResult.ResultObject = null;
                 }
             }
@@ -153,9 +151,9 @@ namespace OnlineLezzetler.Business.Concrete
                 }
                 else
                 {
-                    searchResult.ResultMessage = "Bulunamadi";
+                    searchResult.ResultMessage = "Not Found";
                     searchResult.ResultObject = null;
-                    searchResult.ResultType = ResultType.Error;
+                    searchResult.ResultType = ResultType.Warning;
                 }
             }
             catch (Exception ex)
@@ -184,9 +182,9 @@ namespace OnlineLezzetler.Business.Concrete
                 }
                 else
                 {
-                    searchResult.ResultMessage = "Bulunamadi";
+                    searchResult.ResultMessage = "Not Found";
                     searchResult.ResultObject = null;
-                    searchResult.ResultType = ResultType.Error;
+                    searchResult.ResultType = ResultType.Warning;
                 }
             }
             catch (Exception ex)
@@ -216,7 +214,7 @@ namespace OnlineLezzetler.Business.Concrete
                 }
                 else
                 {
-                    searchResult.ResultMessage = "Arattiginiz sonuc bulunamadi";
+                    searchResult.ResultMessage = "Not Found";
                     searchResult.ResultType = ResultType.Warning;
                 }
             }
