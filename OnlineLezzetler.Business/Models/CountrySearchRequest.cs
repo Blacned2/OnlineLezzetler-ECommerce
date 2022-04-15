@@ -8,7 +8,9 @@ namespace OnlineLezzetler.Business.Models
 {
     public class CountrySearchRequest
     {
+#nullable enable
         public string? CountryName { get; set; }
         public string? CountryShortName { get; set; }
+#nullable disable
     }
 }

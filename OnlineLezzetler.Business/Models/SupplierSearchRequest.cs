@@ -8,7 +8,9 @@ namespace OnlineLezzetler.Business.Models
 {
     public class SupplierSearchRequest
     {
+#nullable enable
         public string? CityName { get; set; }
         public string? CompanyName { get; set; }
+#nullable disable
     }
 }

@@ -8,7 +8,9 @@ namespace OnlineLezzetler.Business.Models
 {
     public class CategorySearchRequest
     {
+        #nullable enable
         public string? CategoryName { get; set; }
         public string? Description { get; set; }
+        #nullable disable
     }
 }
