@@ -32,7 +32,7 @@ namespace OnlineLezzetler.Api.Controllers
             }
         }
 
-        [HttpGet,Route("GetCityListsWithRelations")]
+        [HttpGet, Route("GetCityListsWithRelations")]
         public ActionResult<List<City>> GetCityListWithRelations()
         {
             var cities = _cityService.GetCitiesWithRelations();
@@ -66,13 +66,16 @@ namespace OnlineLezzetler.Api.Controllers
         {
             var result = _cityService.AddCity(city);
 
-            if (result.ResultType == ResultType.Success)
+            switch (result.ResultType)
             {
-                return Ok(result.ResultObject);
-            }
-            else
-            {
-                return BadRequest(result.ResultObject);
+                case ResultType.Success:
+                    return Ok(result.ResultObject);
+                case ResultType.Warning:
+                    return NotFound(result.ResultObject);
+                case ResultType.Error:
+                    return BadRequest(result.ResultObject);
+                default:
+                    return RedirectToAction("GetCities");
             }
         }
 
@@ -83,11 +86,11 @@ namespace OnlineLezzetler.Api.Controllers
 
             if (result.ResultType == ResultType.Success)
             {
-                return Ok();
+                return Ok(result.ResultObject);
             }
             else
             {
-                return BadRequest();
+                return BadRequest(result.ResultObject);
             }
         }
 
@@ -96,13 +99,16 @@ namespace OnlineLezzetler.Api.Controllers
         {
             var result = _cityService.EditCity(id, city);
 
-            if (result.ResultType == ResultType.Success)
+            switch (result.ResultType)
             {
-                return Ok(result.ResultObject);
-            }
-            else
-            {
-                return BadRequest(result.ResultObject);
+                case ResultType.Success:
+                    return Ok(result.ResultObject);
+                case ResultType.Warning:
+                    return NotFound(result.ResultObject);
+                case ResultType.Error:
+                    return BadRequest(result.ResultObject);
+                default:
+                    return RedirectToAction("GetCities");
             }
         }
 

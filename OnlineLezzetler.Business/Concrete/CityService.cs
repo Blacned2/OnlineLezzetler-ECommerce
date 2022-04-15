@@ -203,7 +203,7 @@ namespace OnlineLezzetler.Business.Concrete
             try
             {
                 var result = (from u in _context.Cities
-                              where u.IsActive == true
+                              where u.IsActive == true && u.CityID == id
                               select u).FirstOrDefault();
 
                 if(result != null)

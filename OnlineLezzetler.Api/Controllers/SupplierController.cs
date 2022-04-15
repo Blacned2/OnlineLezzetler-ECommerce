@@ -9,32 +9,32 @@ namespace OnlineLezzetler.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class CategoryController : ControllerBase
+    public class SupplierController : ControllerBase
     {
-        private readonly ICategoryService _categoryService;
-        public CategoryController(ICategoryService categoryService)
+        private readonly ISupplierService _supplierService;
+        public SupplierController(ISupplierService supplierService)
         {
-            this._categoryService = categoryService;
+            this._supplierService = supplierService;
         }
 
         [HttpGet]
-        public ActionResult<List<CategoryDto>> CategoryList()
+        public ActionResult<List<SupplierDto>> SupplierList()
         {
-            var categories = _categoryService.GetCategories();
-            if(categories.ResultType == ResultType.Success)
+            var Suppliers = _supplierService.GetSuppliers();
+            if (Suppliers.ResultType == ResultType.Success)
             {
-                return Ok(categories.ResultObject);
+                return Ok(Suppliers.ResultObject);
             }
             else
             {
-                return NotFound(categories.ResultObject);
+                return NotFound(Suppliers.ResultObject);
             }
         }
 
         [HttpGet, Route("{id}")]
-        public ActionResult GetSingleCategory(int id)
+        public ActionResult GetSingleSupplier(int id)
         {
-            var result = _categoryService.GetSingleCategory(id);
+            var result = _supplierService.GetSupplier(id);
 
             if (result.ResultType == ResultType.Success)
             {
@@ -47,11 +47,11 @@ namespace OnlineLezzetler.Api.Controllers
         }
 
         [HttpPost]
-        public ActionResult AddCategory(CategoryDto category)
+        public ActionResult AddSupplier(SupplierDto supplier)
         {
-            var result = _categoryService.AddCategory(category);
+            var result = _supplierService.AddSupplier(supplier);
 
-            if(result.ResultType == ResultType.Success)
+            if (result.ResultType == ResultType.Success)
             {
                 return Ok(result.ResultObject);
             }
@@ -62,11 +62,11 @@ namespace OnlineLezzetler.Api.Controllers
         }
 
         [HttpDelete]
-        public ActionResult DeleteCategory(int id)
+        public ActionResult DeleteSupplier(int id)
         {
-            var result = _categoryService.DeleteCategory(id);
+            var result = _supplierService.DeleteSupplier(id);
 
-            if(result.ResultType == ResultType.Success)
+            if (result.ResultType == ResultType.Success)
             {
                 return Ok();
             }
@@ -76,12 +76,12 @@ namespace OnlineLezzetler.Api.Controllers
             }
         }
 
-        [HttpPut,Route("{id}")]
-        public ActionResult EditCategory(int id,CategoryDto category)
+        [HttpPut, Route("{id}")]
+        public ActionResult EditSupplier(int id, SupplierDto supplier)
         {
-            var result = _categoryService.EditCategory(id,category);
+            var result = _supplierService.EditSupplier(id, supplier);
 
-            if(result.ResultType == ResultType.Success)
+            if (result.ResultType == ResultType.Success)
             {
                 return Ok(result.ResultObject);
             }
@@ -91,12 +91,12 @@ namespace OnlineLezzetler.Api.Controllers
             }
         }
 
-        [HttpPost,Route("Search")]
-        public ActionResult SearchCategory(CategorySearchRequest search)
+        [HttpPost, Route("Search")]
+        public ActionResult SearchSupplier(SupplierSearchRequest search)
         {
-            var results = _categoryService.SearchCategories(search);
+            var results = _supplierService.SearchSupplier(search);
 
-            if(results.ResultType == ResultType.Success)
+            if (results.ResultType == ResultType.Success)
             {
                 return Ok(results.ResultObject);
             }
