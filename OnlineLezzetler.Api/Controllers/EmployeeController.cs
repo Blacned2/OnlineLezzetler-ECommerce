@@ -3,51 +3,37 @@ using Microsoft.AspNetCore.Mvc;
 using OnlineLezzetler.Business.Abstract;
 using OnlineLezzetler.Business.AutoMapper.Dtos;
 using OnlineLezzetler.Business.Models;
-using OnlineLezzetler.Data.Models;
 using System.Collections.Generic;
 
 namespace OnlineLezzetler.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class CityController : ControllerBase
+    public class EmployeeController : ControllerBase
     {
-        private readonly ICityService _cityService;
-        public CityController(ICityService cityService)
+        private readonly IEmployeeService _employeeService;
+        public EmployeeController(IEmployeeService employeeService)
         {
-            this._cityService = cityService;
+            this._employeeService = employeeService;
         }
 
         [HttpGet]
-        public ActionResult<List<CityDto>> GetCityList()
+        public ActionResult<List<EmployeeDto>> EmployeeList()
         {
-            var cities = _cityService.GetCities();
-            return cities.ResultType switch
+            var result = _employeeService.GetEmployees();
+            return result.ResultType switch
             {
-                ResultType.Success => Ok(cities.ResultObject),
-                ResultType.Warning => NotFound(cities.ResultObject),
-                ResultType.Error => BadRequest(cities.ResultObject),
-                _ => BadRequest(cities.ResultObject)
-            };
-        }
-
-        [HttpGet, Route("CityListsWithRelations")]
-        public ActionResult<List<City>> GetCityListWithRelations()
-        {
-            var cities = _cityService.GetCitiesWithRelations();
-            return cities.ResultType switch
-            {
-                ResultType.Success => Ok(cities.ResultObject),
-                ResultType.Warning => NotFound(cities.ResultObject),
-                ResultType.Error => BadRequest(cities.ResultObject),
-                _ => BadRequest(cities.ResultObject)
+                ResultType.Success => Ok(result.ResultObject),
+                ResultType.Warning => NotFound(result.ResultObject),
+                ResultType.Error => BadRequest(result.ResultObject),
+                _ => BadRequest(result.ResultObject)
             };
         }
 
         [HttpGet, Route("{id}")]
-        public ActionResult GetCity(int id)
+        public ActionResult GetEmployee(int id)
         {
-            var result = _cityService.GetCity(id);
+            var result = _employeeService.GetEmployee(id);
 
             return result.ResultType switch
             {
@@ -59,9 +45,9 @@ namespace OnlineLezzetler.Api.Controllers
         }
 
         [HttpPost]
-        public ActionResult AddCity(CityDto city)
+        public ActionResult AddEmployee(EmployeeDto employee)
         {
-            var result = _cityService.AddCity(city);
+            var result = _employeeService.AddEmployee(employee);
 
             return result.ResultType switch
             {
@@ -73,9 +59,9 @@ namespace OnlineLezzetler.Api.Controllers
         }
 
         [HttpDelete]
-        public ActionResult DeleteCity(int id)
+        public ActionResult DeleteEmployee(int id)
         {
-            var result = _cityService.DeleteCity(id);
+            var result = _employeeService.DeleteEmployee(id);
 
             return result.ResultType switch
             {
@@ -87,9 +73,9 @@ namespace OnlineLezzetler.Api.Controllers
         }
 
         [HttpPut, Route("{id}")]
-        public ActionResult EditCity(int id, CityDto city)
+        public ActionResult EditEmployee(int id, EmployeeDto employee)
         {
-            var result = _cityService.EditCity(id, city);
+            var result = _employeeService.EditEmployee(id, employee);
 
             return result.ResultType switch
             {
@@ -101,9 +87,9 @@ namespace OnlineLezzetler.Api.Controllers
         }
 
         [HttpPost, Route("Search")]
-        public ActionResult SearchCity(CitySearchRequest search)
+        public ActionResult SearchEmployee(EmployeeSearchRequest search)
         {
-            var results = _cityService.SearchCity(search);
+            var results = _employeeService.SearchEmployee(search);
 
             return results.ResultType switch
             {

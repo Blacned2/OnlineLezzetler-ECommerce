@@ -22,7 +22,7 @@ namespace OnlineLezzetler.Business.Concrete
 
         public SearchResult<CityDto> AddCity(CityDto city)
         {
-            SearchResult<CityDto> searchResult = new SearchResult<CityDto>();
+            SearchResult<CityDto> searchResult = new();
 
             try
             {
@@ -66,7 +66,7 @@ namespace OnlineLezzetler.Business.Concrete
 
         public SearchResult<bool> DeleteCity(int id)
         {
-            SearchResult<bool> searchResult = new SearchResult<bool>();
+            SearchResult<bool> searchResult = new();
 
             try
             {
@@ -99,7 +99,7 @@ namespace OnlineLezzetler.Business.Concrete
 
         public SearchResult<CityDto> EditCity(int id, CityDto city)
         {
-            SearchResult<CityDto> searchResult = new SearchResult<CityDto>();
+            SearchResult<CityDto> searchResult = new();
 
             try
             {
@@ -138,7 +138,7 @@ namespace OnlineLezzetler.Business.Concrete
 
         public SearchResult<List<CityDto>> GetCities()
         {
-            SearchResult<List<CityDto>> searchResult = new SearchResult<List<CityDto>>();
+            SearchResult<List<CityDto>> searchResult = new();
 
             try
             {
@@ -168,7 +168,7 @@ namespace OnlineLezzetler.Business.Concrete
 
         public SearchResult<List<City>> GetCitiesWithRelations()
         {
-            SearchResult<List<City>> searchResult = new SearchResult<List<City>>();
+            SearchResult<List<City>> searchResult = new();
 
             try
             {
@@ -198,7 +198,7 @@ namespace OnlineLezzetler.Business.Concrete
 
         public SearchResult<CityDto> GetCity(int id)
         {
-            SearchResult<CityDto> searchResult = new SearchResult<CityDto>();
+            SearchResult<CityDto> searchResult = new();
 
             try
             {
@@ -228,7 +228,7 @@ namespace OnlineLezzetler.Business.Concrete
 
         public SearchResult<List<CityDto>> SearchCity(CitySearchRequest city)
         {
-            SearchResult<List<CityDto>> searchResult = new SearchResult<List<CityDto>>();
+            SearchResult<List<CityDto>> searchResult = new();
 
             try
             {

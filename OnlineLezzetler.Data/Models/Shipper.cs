@@ -19,5 +19,10 @@ namespace OnlineLezzetler.Data.Models
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public Guid GUID { get; set; }
 
+        public Shipper()
+        {
+            GUID = Guid.NewGuid();
+        }
+
     }
 }

@@ -38,6 +38,7 @@ namespace OnlineLezzetler.Data.Models
         public Order()
         {
             OrderDate = DateTime.Now;
+            GUID = Guid.NewGuid();
         }
     }
 }

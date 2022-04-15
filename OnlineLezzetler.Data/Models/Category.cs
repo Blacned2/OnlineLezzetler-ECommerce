@@ -13,7 +13,9 @@ namespace OnlineLezzetler.Data.Models
         public int CategoryID { get; set; }
         public string CategoryName { get; set; }
         [MaxLength(50)]
+#nullable enable
         public string? Description { get; set; }
+#nullable disable
         public bool IsDeleted { get; set; } = false;
     }
 }

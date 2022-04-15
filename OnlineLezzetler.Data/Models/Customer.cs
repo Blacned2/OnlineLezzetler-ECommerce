@@ -14,10 +14,14 @@ namespace OnlineLezzetler.Data.Models
         public int CustomerID { get; set; }
         public int CityID { get; set; }
         public string CustomerName { get; set; }
+#nullable enable
         public string? CompanyName { get; set; }
+#nullable disable
         public string Address { get; set; }
         public string Phone { get; set; }
+#nullable enable
         public string? Fax { get; set; }
+#nullable disable
         public bool IsActive { get; set; } = true;
 
         [ForeignKey("CityID")]

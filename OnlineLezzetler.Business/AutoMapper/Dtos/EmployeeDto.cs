@@ -1,19 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace OnlineLezzetler.Data.Models
+namespace OnlineLezzetler.Business.AutoMapper.Dtos
 {
-    public class Employee
+    public class EmployeeDto
     {
-        [Key]
         public int EmployeeID { get; set; }
-        [ForeignKey("CityID")]
-        public int EmployeeCityID { get; set; } 
+        public int EmployeeCityID { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string Title { get; set; }
@@ -26,14 +22,5 @@ namespace OnlineLezzetler.Data.Models
         public string? Notes { get; set; }
         public string? PhotoPath { get; set; }
 #nullable disable
-        public bool IsFired { get; set; } = false;
-         
-        public virtual City City { get; set; }
-
-
-        public Employee()
-        {
-            HiredDate = DateTime.Now;
-        }
     }
 }

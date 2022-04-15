@@ -21,7 +21,7 @@ namespace OnlineLezzetler.Business.Concrete
 
         public SearchResult<CountryDto> AddCountry(CountryDto country)
         {
-            SearchResult<CountryDto> searchResult = new SearchResult<CountryDto>();
+            SearchResult<CountryDto> searchResult = new();
 
             try
             {
@@ -65,7 +65,7 @@ namespace OnlineLezzetler.Business.Concrete
 
         public SearchResult<bool> DeleteCountry(int id)
         {
-            SearchResult<bool> searchResult = new SearchResult<bool>();
+            SearchResult<bool> searchResult = new();
 
             try
             {
@@ -98,7 +98,7 @@ namespace OnlineLezzetler.Business.Concrete
 
         public SearchResult<CountryDto> EditCountry(int id, CountryDto country)
         {
-            SearchResult<CountryDto> searchResult = new SearchResult<CountryDto>();
+            SearchResult<CountryDto> searchResult = new();
 
             try
             {
@@ -132,7 +132,7 @@ namespace OnlineLezzetler.Business.Concrete
 
         public SearchResult<List<CountryDto>> GetCountries()
         {
-            SearchResult<List<CountryDto>> searchResult = new SearchResult<List<CountryDto>>();
+            SearchResult<List<CountryDto>> searchResult = new();
 
             try
             {
@@ -163,7 +163,7 @@ namespace OnlineLezzetler.Business.Concrete
 
         public SearchResult<CountryDto> GetCountry(int id)
         {
-            SearchResult<CountryDto> searchResult = new SearchResult<CountryDto>();
+            SearchResult<CountryDto> searchResult = new();
 
             try
             {
@@ -192,7 +192,7 @@ namespace OnlineLezzetler.Business.Concrete
 
         public SearchResult<List<CountryDto>> SearchCountry(CountrySearchRequest country)
         {
-            SearchResult<List<CountryDto>> searchResult = new SearchResult<List<CountryDto>>();
+            SearchResult<List<CountryDto>> searchResult = new();
 
             try
             {

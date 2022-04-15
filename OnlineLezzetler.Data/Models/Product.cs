@@ -28,5 +28,10 @@ namespace OnlineLezzetler.Data.Models
 
         [ForeignKey("SupplierID")]
         public virtual Supplier Supplier { get; set; }
+
+        public Product()
+        {
+            GUID = Guid.NewGuid();
+        }
     }
 }

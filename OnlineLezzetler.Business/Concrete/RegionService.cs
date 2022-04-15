@@ -22,7 +22,7 @@ namespace OnlineLezzetler.Business.Concrete
 
         public SearchResult<RegionDto> AddRegion(RegionDto region)
         {
-            SearchResult<RegionDto> searchResult = new SearchResult<RegionDto>();
+            SearchResult<RegionDto> searchResult = new();
 
             try
             {
@@ -65,7 +65,7 @@ namespace OnlineLezzetler.Business.Concrete
 
         public SearchResult<bool> DeleteRegion(int id)
         {
-            SearchResult<bool> searchResult = new SearchResult<bool>();
+            SearchResult<bool> searchResult = new();
 
             try
             {
@@ -97,7 +97,7 @@ namespace OnlineLezzetler.Business.Concrete
 
         public SearchResult<RegionDto> GetRegion(int id)
         {
-            SearchResult<RegionDto> searchResult = new SearchResult<RegionDto>();
+            SearchResult<RegionDto> searchResult = new();
 
             try
             {
@@ -125,7 +125,7 @@ namespace OnlineLezzetler.Business.Concrete
 
         public SearchResult<List<RegionDto>> GetRegions()
         {
-            SearchResult<List<RegionDto>> searchResult = new SearchResult<List<RegionDto>>();
+            SearchResult<List<RegionDto>> searchResult = new();
 
             try
             {
@@ -156,7 +156,7 @@ namespace OnlineLezzetler.Business.Concrete
 
         public SearchResult<List<Region>> GetRegionsWithCountries()
         {
-            SearchResult<List<Region>> searchResult = new SearchResult<List<Region>>();
+            SearchResult<List<Region>> searchResult = new();
 
             try
             {
@@ -187,7 +187,7 @@ namespace OnlineLezzetler.Business.Concrete
 
         public SearchResult<List<RegionDto>> SearchRegion(RegionSearchRequest request)
         {
-            SearchResult<List<RegionDto>> searchResult = new SearchResult<List<RegionDto>>();
+            SearchResult<List<RegionDto>> searchResult = new();
 
             try
             {

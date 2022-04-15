@@ -13,42 +13,50 @@ using System.Threading.Tasks;
 
 namespace OnlineLezzetler.Business.Concrete
 {
-    public class SupplierService : BaseAppService, ISupplierService
+    public class EmployeeService : BaseAppService, IEmployeeService
     {
         private readonly IMapper _mapper;
-        public SupplierService(OnlineLezzetlerContext context, IMapper mapper) : base(context)
+        public EmployeeService(OnlineLezzetlerContext context,IMapper mapper) : base(context)
         {
-            this._mapper = mapper;
+            _mapper = mapper;
         }
 
-        public SearchResult<bool> AddSupplier(SupplierDto request)
+        public SearchResult<bool> AddEmployee(EmployeeDto request)
         {
             SearchResult<bool> searchResult = new();
 
             try
             {
-                var result = (from u in _context.Suppliers
-                              where u.CompanyName == request.CompanyName
+                var result = (from u in _context.Employees
+                              where (u.FirstName.ToLower()
+                              + " " +
+                              u.LastName.ToLower()) == (request.FirstName.ToLower()
+                              + " " + 
+                              request.LastName.ToLower())
                               select u).FirstOrDefault();
 
-                if (result == null)
+                if(result == null)
                 {
-                    _context.Suppliers.Add(_mapper.Map<Supplier>(request));
+                    _context.Employees.Add(_mapper.Map<Employee>(request));
                     _context.SaveChanges();
                     searchResult.ResultMessage = string.Empty;
                     searchResult.ResultObject = true;
                     searchResult.ResultType = ResultType.Success;
                 }
-                else if (result != null && result.IsActive == false)
+                else if(result != null && result.IsFired == true) //ReHired to the job
                 {
-                    result.IsActive = true;
-                    
+                    result.IsFired = false;
+                    NullValidationHelper.StringNullValidation(request.Title, result.Title); 
+                    NullValidationHelper.StringNullValidation(request.Phone, result.Phone);
+                    NullValidationHelper.BindIfNotZero(request.EmployeeCityID, result.City.CityID);
                     NullValidationHelper.StringNullValidation(request.Address, result.Address);
-                    NullValidationHelper.StringNullValidation(request.HomePage,result.HomePage);
-                    NullValidationHelper.StringNullValidation(request.ContactName,result.ContactName);
-                    NullValidationHelper.BindIfNotZero(request.CityID,result.CityID); // Bind if greater than 0
-                    NullValidationHelper.StringNullValidation(request.Fax,result.Fax);
-                    NullValidationHelper.StringNullValidation(request.Phone,result.Phone);
+                    NullValidationHelper.BindIfNotZero(request.Salary, result.Salary);
+                    NullValidationHelper.BindDateTimeIfNotNull(request.HiredDate, result.HiredDate);
+                    NullValidationHelper.StringNullValidation(request.Notes, result.Notes);
+                    NullValidationHelper.StringNullValidation(request.PhotoPath, result.PhotoPath);
+
+                    _context.Employees.Update(result);
+                    _context.SaveChanges();
 
                     searchResult.ResultMessage = string.Empty;
                     searchResult.ResultObject = true;
@@ -70,21 +78,21 @@ namespace OnlineLezzetler.Business.Concrete
             return searchResult;
         }
 
-        public SearchResult<bool> DeleteSupplier(int id)
+        public SearchResult<bool> DeleteEmployee(int id)
         {
             SearchResult<bool> searchResult = new();
 
             try
             {
-                var result = _context.Suppliers.Find(id);
+                var result = _context.Employees.Find(id);
 
-                if (result != null)
+                if(result != null)
                 {
-                    result.IsActive = false;
-                    _context.Update(result);
+                    result.IsFired = true;
+                    _context.Employees.Update(result);
                     _context.SaveChanges();
 
-                    searchResult.ResultMessage = string.Empty;
+                    searchResult.ResultMessage = String.Empty;
                     searchResult.ResultObject = true;
                     searchResult.ResultType = ResultType.Success;
                 }
@@ -98,36 +106,39 @@ namespace OnlineLezzetler.Business.Concrete
             catch (Exception ex)
             {
                 searchResult.ResultMessage = ex.Message;
+                searchResult.ResultObject= false;
                 searchResult.ResultType = ResultType.Error;
             }
             return searchResult;
         }
 
-        public SearchResult<SupplierDto> EditSupplier(int id, SupplierDto request)
+        public SearchResult<EmployeeDto> EditEmployee(int id, EmployeeDto request)
         {
-            SearchResult<SupplierDto> searchResult = new();
+            SearchResult<EmployeeDto> searchResult = new();
 
             try
             {
-                var result = (from u in _context.Suppliers
-                              where u.IsActive == true && u.SupplierID == id
+                var result = (from u in _context.Employees
+                              where u.IsFired == false && u.EmployeeID == id
                               select u).FirstOrDefault();
 
-                if (result != null)
+                if(result != null)
                 {
-                    NullValidationHelper.StringNullValidation(request.Address,result.Address); //Bind if not null or empty
-                    NullValidationHelper.StringNullValidation(request.HomePage,result.HomePage);
-                    NullValidationHelper.StringNullValidation(request.ContactName,result.ContactName);
-                    NullValidationHelper.BindIfNotZero(request.CityID, result.CityID); // Bind if greater than 0
-                    NullValidationHelper.StringNullValidation(request.Fax, result.Fax);
+                    NullValidationHelper.StringNullValidation(request.Title, result.Title);
+                    NullValidationHelper.StringNullValidation(request.FirstName, result.FirstName);
+                    NullValidationHelper.StringNullValidation(request.LastName, result.LastName);
                     NullValidationHelper.StringNullValidation(request.Phone, result.Phone);
-                    NullValidationHelper.StringNullValidation(request.CompanyName, result.CompanyName);
+                    NullValidationHelper.BindIfNotZero(request.EmployeeCityID, result.City.CityID);
+                    NullValidationHelper.StringNullValidation(request.Address, result.Address);
+                    NullValidationHelper.BindIfNotZero(request.Salary, result.Salary);
+                    NullValidationHelper.StringNullValidation(request.Notes, result.Notes);
+                    NullValidationHelper.StringNullValidation(request.PhotoPath, result.PhotoPath);
 
-                    _context.Suppliers.Update(result);
+                    _context.Employees.Update(result);
                     _context.SaveChanges();
 
                     searchResult.ResultMessage = String.Empty;
-                    searchResult.ResultObject = _mapper.Map<SupplierDto>(result);
+                    searchResult.ResultObject = _mapper.Map<EmployeeDto>(result);
                     searchResult.ResultType = ResultType.Success;
                 }
                 else
@@ -144,50 +155,20 @@ namespace OnlineLezzetler.Business.Concrete
             return searchResult;
         }
 
-        public SearchResult<SupplierDto> GetSupplier(int id)
+        public SearchResult<EmployeeDto> GetEmployee(int id)
         {
-            SearchResult<SupplierDto> searchResult = new();
+            SearchResult<EmployeeDto> searchResult = new();
 
             try
             {
-                var result = (from u in _context.Suppliers
-                              where u.SupplierID == id
+                var result = (from u in _context.Employees
+                              where u.IsFired == false
                               select u).FirstOrDefault();
 
-                if (result != null)
+                if(result != null)
                 {
-                    searchResult.ResultMessage = String.Empty;
-                    searchResult.ResultObject = _mapper.Map<SupplierDto>(result);
-                    searchResult.ResultType = ResultType.Success;
-                }
-                else
-                {
-                    searchResult.ResultMessage = "Not Found !";
-                    searchResult.ResultType = ResultType.Warning;
-                }
-            }
-            catch (Exception ex)
-            {
-                searchResult.ResultMessage = ex.Message;
-                searchResult.ResultType = ResultType.Error;
-            }
-            return searchResult;
-        }
-
-        public SearchResult<List<SupplierDto>> GetSuppliers()
-        {
-            SearchResult<List<SupplierDto>> searchResult = new();
-
-            try
-            {
-                var results = (from u in _context.Suppliers
-                               where u.IsActive == true
-                               select u).ToList();
-
-                if (results.Any())
-                {
-                    searchResult.ResultMessage = String.Empty;
-                    searchResult.ResultObject = _mapper.Map<List<SupplierDto>>(results);
+                    searchResult.ResultObject = _mapper.Map<EmployeeDto>(result);
+                    searchResult.ResultMessage = string.Empty;
                     searchResult.ResultType = ResultType.Success;
                 }
                 else
@@ -204,23 +185,21 @@ namespace OnlineLezzetler.Business.Concrete
             return searchResult;
         }
 
-        public SearchResult<List<SupplierDto>> SearchSupplier(SupplierSearchRequest request)
+        public SearchResult<List<EmployeeDto>> GetEmployees()
         {
-            SearchResult<List<SupplierDto>> searchResult = new();
+            SearchResult<List<EmployeeDto>> searchResult = new();
 
             try
             {
-                var results = (from u in _context.Suppliers
-                               where u.IsActive == true &&
-                               (request.CityName == null || u.City.CityName.Contains(request.CityName)) &&
-                               (request.CompanyName == null || u.CompanyName.Contains(request.CompanyName))
+                var results = (from u in _context.Employees
+                               where u.IsFired == false
                                select u).ToList();
 
                 if (results.Any())
                 {
-                    searchResult.ResultMessage = String.Empty;
-                    searchResult.ResultObject = _mapper.Map<List<SupplierDto>>(results);
-                    searchResult.ResultType = ResultType.Success;
+                    searchResult.ResultObject = _mapper.Map<List<EmployeeDto>>(results);
+                    searchResult.ResultMessage= string.Empty;
+                    searchResult.ResultType= ResultType.Success;
                 }
                 else
                 {
@@ -235,6 +214,38 @@ namespace OnlineLezzetler.Business.Concrete
             }
             return searchResult;
         }
+
+        public SearchResult<List<EmployeeDto>> SearchEmployee(EmployeeSearchRequest request)
+        {
+            SearchResult<List<EmployeeDto>> searchResult = new();
+
+            try
+            {
+                var results = (from u in _context.Employees
+                               where u.IsFired == false &&
+                               (string.IsNullOrEmpty(request.EmployeeName) ||
+                               u.FirstName.Contains(request.EmployeeName) || u.LastName.Contains(request.EmployeeName) &&
+                               (string.IsNullOrEmpty(request.EmployeeCityName) || u.City.CityName.Contains(request.EmployeeCityName)))
+                               select u).ToList();
+
+                if (results.Any())
+                {
+                    searchResult.ResultObject = _mapper.Map<List<EmployeeDto>>(results);
+                    searchResult.ResultType = ResultType.Success;
+                    searchResult.ResultMessage = String.Empty;
+                }
+                else
+                {
+                    searchResult.ResultMessage = "Not found !";
+                    searchResult.ResultType = ResultType.Warning;
+                }
+            }
+            catch (Exception ex)
+            {
+                searchResult.ResultMessage = ex.Message;
+                searchResult.ResultType = ResultType.Error;
+            }
+            return searchResult;
+        }
     }
 }
-

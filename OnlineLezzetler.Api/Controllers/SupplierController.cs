@@ -20,15 +20,14 @@ namespace OnlineLezzetler.Api.Controllers
         [HttpGet]
         public ActionResult<List<SupplierDto>> SupplierList()
         {
-            var Suppliers = _supplierService.GetSuppliers();
-            if (Suppliers.ResultType == ResultType.Success)
+            var result = _supplierService.GetSuppliers();
+            return result.ResultType switch
             {
-                return Ok(Suppliers.ResultObject);
-            }
-            else
-            {
-                return NotFound(Suppliers.ResultObject);
-            }
+                ResultType.Success => Ok(result.ResultObject),
+                ResultType.Warning => NotFound(result.ResultObject),
+                ResultType.Error => BadRequest(result.ResultObject),
+                _ => BadRequest(result.ResultObject)
+            };
         }
 
         [HttpGet, Route("{id}")]
@@ -36,14 +35,13 @@ namespace OnlineLezzetler.Api.Controllers
         {
             var result = _supplierService.GetSupplier(id);
 
-            if (result.ResultType == ResultType.Success)
+            return result.ResultType switch
             {
-                return Ok(result.ResultObject);
-            }
-            else
-            {
-                return NotFound(result.ResultObject);
-            }
+                ResultType.Success => Ok(result.ResultObject),
+                ResultType.Warning => NotFound(result.ResultObject),
+                ResultType.Error => BadRequest(result.ResultObject),
+                _ => BadRequest(result.ResultObject)
+            };
         }
 
         [HttpPost]
@@ -51,14 +49,13 @@ namespace OnlineLezzetler.Api.Controllers
         {
             var result = _supplierService.AddSupplier(supplier);
 
-            if (result.ResultType == ResultType.Success)
+            return result.ResultType switch
             {
-                return Ok(result.ResultObject);
-            }
-            else
-            {
-                return BadRequest(result.ResultObject);
-            }
+                ResultType.Success => Ok(result.ResultObject),
+                ResultType.Warning => NotFound(result.ResultObject),
+                ResultType.Error => BadRequest(result.ResultObject),
+                _ => BadRequest(result.ResultObject)
+            };
         }
 
         [HttpDelete]
@@ -66,14 +63,13 @@ namespace OnlineLezzetler.Api.Controllers
         {
             var result = _supplierService.DeleteSupplier(id);
 
-            if (result.ResultType == ResultType.Success)
+            return result.ResultType switch
             {
-                return Ok();
-            }
-            else
-            {
-                return BadRequest();
-            }
+                ResultType.Success => Ok(result.ResultObject),
+                ResultType.Warning => NotFound(result.ResultObject),
+                ResultType.Error => BadRequest(result.ResultObject),
+                _ => BadRequest(result.ResultObject)
+            };
         }
 
         [HttpPut, Route("{id}")]
@@ -81,16 +77,13 @@ namespace OnlineLezzetler.Api.Controllers
         {
             var result = _supplierService.EditSupplier(id, supplier);
 
-            switch (result.ResultType)
+            return result.ResultType switch
             {
-                case ResultType.Success:
-                    return Ok(result.ResultObject);
-                case ResultType.Warning:
-                    return NotFound(result.ResultObject);
-                case ResultType.Error:
-                    return BadRequest(result.ResultObject);
-                default: return BadRequest(result.ResultObject);
-            }
+                ResultType.Success => Ok(result.ResultObject),
+                ResultType.Warning => NotFound(result.ResultObject),
+                ResultType.Error => BadRequest(result.ResultObject),
+                _ => BadRequest(result.ResultObject)
+            };
         }
 
         [HttpPost, Route("Search")]
@@ -98,14 +91,13 @@ namespace OnlineLezzetler.Api.Controllers
         {
             var results = _supplierService.SearchSupplier(search);
 
-            if (results.ResultType == ResultType.Success)
+            return results.ResultType switch
             {
-                return Ok(results.ResultObject);
-            }
-            else
-            {
-                return NotFound(results.ResultObject);
-            }
+                ResultType.Success => Ok(results.ResultObject),
+                ResultType.Warning => NotFound(results.ResultObject),
+                ResultType.Error => BadRequest(results.ResultObject),
+                _ => BadRequest(results.ResultObject)
+            };
         }
     }
 }

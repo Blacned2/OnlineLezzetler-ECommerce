@@ -17,8 +17,10 @@ namespace OnlineLezzetler.Data.Models
         public string ContactName { get; set; }
         public string Address { get; set; }
         public string Phone { get; set; }
+#nullable enable
         public string? Fax { get; set; }
         public string? HomePage { get; set; }
+#nullable disable
         public bool IsActive { get; set; } = true;
 
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -26,5 +28,10 @@ namespace OnlineLezzetler.Data.Models
 
         [ForeignKey("CityID")]
         public virtual City City { get; set; }
+
+        public Supplier()
+        {
+            GUID = Guid.NewGuid();
+        }
     }
 }
