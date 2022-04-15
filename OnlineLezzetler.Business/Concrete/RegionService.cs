@@ -133,7 +133,7 @@ namespace OnlineLezzetler.Business.Concrete
                                where u.IsActive == true
                                select u).ToList();
 
-                if (results.Count > 0)
+                if (results.Any())
                 {
                     searchResult.ResultMessage = string.Empty;
                     searchResult.ResultObject = _mapper.Map<List<RegionDto>>(results);
@@ -164,7 +164,7 @@ namespace OnlineLezzetler.Business.Concrete
                                where u.IsActive == true
                                select u).ToList();
 
-                if (results.Count > 0)
+                if (results.Any())
                 {
                     searchResult.ResultMessage = String.Empty;
                     searchResult.ResultObject = results;
@@ -196,7 +196,7 @@ namespace OnlineLezzetler.Business.Concrete
                                && (string.IsNullOrEmpty(request.RegionName) || u.RegionDescription.Contains(request.RegionName))
                                select u).ToList(); 
                                
-                if (results.Count > 0)
+                if (results.Any())
                 {
                     searchResult.ResultMessage = String.Empty;
                     searchResult.ResultObject = _mapper.Map<List<RegionDto>>(results);

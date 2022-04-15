@@ -206,7 +206,7 @@ namespace OnlineLezzetler.Business.Concrete
                                (request.Description == null || u.Description.Contains(request.Description) &&
                                request.CategoryName == null || u.CategoryName.Contains(request.CategoryName))
                                select u).ToList();
-                if(results.Count > 0)
+                if(results.Any())
                 {
                     searchResult.ResultObject = _mapper.Map<List<CategoryDto>>(results);
                     searchResult.ResultMessage = string.Empty;

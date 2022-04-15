@@ -145,7 +145,7 @@ namespace OnlineLezzetler.Business.Concrete
                                where u.IsActive == true
                                select u).ToList();
 
-                if(results.Count > 0)
+                if(results.Any())
                 {
                     searchResult.ResultMessage = String.Empty;
                     searchResult.ResultObject = _mapper.Map<List<CountryDto>>(results);
@@ -207,7 +207,7 @@ namespace OnlineLezzetler.Business.Concrete
                                country.CountryShortName == null || u.CountryShortName == country.CountryShortName)
                                select u).ToList();
 
-                if (results.Count > 0)
+                if (results.Any())
                 {
                     searchResult.ResultObject = _mapper.Map<List<CountryDto>>(results);
                     searchResult.ResultMessage = string.Empty;
