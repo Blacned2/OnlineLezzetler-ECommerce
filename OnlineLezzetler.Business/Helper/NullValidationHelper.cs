@@ -8,27 +8,31 @@ namespace OnlineLezzetler.Business.Helper
 {
     public static class NullValidationHelper
     {
-        public static string StringNullValidation(string param)
+        /// <summary>Method helps to bind if param isn't <c>null.</c> First param is your binding obj and second is where you bind it.</summary>
+        public static void StringNullValidation(string param, string bindTo)
         {
             if (!string.IsNullOrEmpty(param))
             {
-                return param;
-            }
-            else
-            {
-                throw new Exception();
+                bindTo = param;
             }
         }
-        public static int GreaterThanZero(int param)
+
+        /// <summary>Method helps to bind if param isn't <c>ZERO.</c> First param is your binding obj and second is where you bind it.</summary>
+        public static void BindIfNotZero(int param,int bindTo)
         {
             if(param > 0)
             {
-                return param;
+                bindTo = param;
             }
-            else
+        }
+
+        /// <summary>Method helps to bind if param isn't <c>ZERO.</c> First param is your binding obj and second is where you bind it.</summary>
+        public static void DoubleNullValidation(double param,double bindTo)
+        {
+            if(param > 0)
             {
-                throw new Exception();
-            }
+                bindTo = param;
+            } 
         }
     }
 }

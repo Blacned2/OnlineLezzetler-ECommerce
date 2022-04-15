@@ -42,12 +42,13 @@ namespace OnlineLezzetler.Business.Concrete
                 else if (result != null && result.IsActive == false)
                 {
                     result.IsActive = true;
-                    result.Address = NullValidationHelper.StringNullValidation(request.Address); //Bind if not null or empty
-                    result.HomePage = NullValidationHelper.StringNullValidation(request.HomePage);
-                    result.ContactName = NullValidationHelper.StringNullValidation(request.ContactName);
-                    result.CityID = NullValidationHelper.GreaterThanZero(request.CityID); // Bind if greater than 0
-                    result.Fax = NullValidationHelper.StringNullValidation(request.Fax);
-                    result.Phone = NullValidationHelper.StringNullValidation(request.Phone);
+                    
+                    NullValidationHelper.StringNullValidation(request.Address, result.Address);
+                    NullValidationHelper.StringNullValidation(request.HomePage,result.HomePage);
+                    NullValidationHelper.StringNullValidation(request.ContactName,result.ContactName);
+                    NullValidationHelper.BindIfNotZero(request.CityID,result.CityID); // Bind if greater than 0
+                    NullValidationHelper.StringNullValidation(request.Fax,result.Fax);
+                    NullValidationHelper.StringNullValidation(request.Phone,result.Phone);
 
                     searchResult.ResultMessage = string.Empty;
                     searchResult.ResultObject = true;
@@ -114,13 +115,13 @@ namespace OnlineLezzetler.Business.Concrete
 
                 if (result != null)
                 {
-                    result.Address = NullValidationHelper.StringNullValidation(request.Address); //Bind if not null or empty
-                    result.HomePage = NullValidationHelper.StringNullValidation(request.HomePage);
-                    result.ContactName = NullValidationHelper.StringNullValidation(request.ContactName);
-                    result.CityID = NullValidationHelper.GreaterThanZero(request.CityID); // Bind if greater than 0
-                    result.Fax = NullValidationHelper.StringNullValidation(request.Fax);
-                    result.Phone = NullValidationHelper.StringNullValidation(request.Phone);
-                    result.CompanyName = NullValidationHelper.StringNullValidation(request.CompanyName);
+                    NullValidationHelper.StringNullValidation(request.Address,result.Address); //Bind if not null or empty
+                    NullValidationHelper.StringNullValidation(request.HomePage,result.HomePage);
+                    NullValidationHelper.StringNullValidation(request.ContactName,result.ContactName);
+                    NullValidationHelper.BindIfNotZero(request.CityID, result.CityID); // Bind if greater than 0
+                    NullValidationHelper.StringNullValidation(request.Fax, result.Fax);
+                    NullValidationHelper.StringNullValidation(request.Phone, result.Phone);
+                    NullValidationHelper.StringNullValidation(request.CompanyName, result.CompanyName);
 
                     _context.Suppliers.Update(result);
                     _context.SaveChanges();

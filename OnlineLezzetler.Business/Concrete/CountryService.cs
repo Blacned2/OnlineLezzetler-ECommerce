@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using OnlineLezzetler.Business.Abstract;
 using OnlineLezzetler.Business.AutoMapper.Dtos;
+using OnlineLezzetler.Business.Helper;
 using OnlineLezzetler.Business.Models;
 using OnlineLezzetler.Data;
 using OnlineLezzetler.Data.Models;
@@ -105,14 +106,8 @@ namespace OnlineLezzetler.Business.Concrete
 
                 if(result != null)
                 {
-                    if(country.CountryName != null)
-                    {
-                        result.CountryName = country.CountryName;
-                    }
-                    if(country.CountryShortName != null)
-                    {
-                        result.CountryShortName = country.CountryShortName;
-                    }
+                    NullValidationHelper.StringNullValidation(country.CountryName, result.CountryName);
+                    NullValidationHelper.StringNullValidation(country.CountryShortName,result.CountryShortName);
                     _context.Update(result);
                     _context.SaveChanges();
                     searchResult.ResultMessage = String.Empty;
