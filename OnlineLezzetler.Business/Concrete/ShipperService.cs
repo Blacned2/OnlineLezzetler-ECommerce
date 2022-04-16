@@ -13,44 +13,38 @@ using System.Threading.Tasks;
 
 namespace OnlineLezzetler.Business.Concrete
 {
-    public class SupplierService : BaseAppService, ISupplierService
+    public class ShipperService : BaseAppService, IShipperService
     {
         private readonly IMapper _mapper;
-        public SupplierService(OnlineLezzetlerContext context, IMapper mapper) : base(context)
+        public ShipperService(OnlineLezzetlerContext context,IMapper mapper) : base(context)
         {
             this._mapper = mapper;
         }
 
-        public SearchResult<bool> AddSupplier(SupplierDto request)
+        public SearchResult<bool> AddShipper(ShipperDto shipper)
         {
             SearchResult<bool> searchResult = new();
 
             try
             {
-                var result = (from u in _context.Suppliers
-                              where u.CompanyName == request.CompanyName
+                var result = (from u in _context.Shippers
+                              where u.CompanyName == shipper.CompanyName
                               select u).FirstOrDefault();
-
-                if (result == null)
+                if(result == null)
                 {
-                    _context.Suppliers.Add(_mapper.Map<Supplier>(request));
+                    _context.Shippers.Add(_mapper.Map<Shipper>(shipper));
                     _context.SaveChanges();
                     searchResult.ResultMessage = string.Empty;
                     searchResult.ResultObject = true;
                     searchResult.ResultType = ResultType.Success;
                 }
-                else if (result != null && result.IsActive == false)
+                else if(result != null && result.IsActive == false) //Shipper companies will be under the command of backoffice employees.That's why we can control them.
                 {
                     result.IsActive = true;
-                    
-                    result.Address = NullValidationHelper.StringNullValidation(request.Address, result.Address);
-                    result.HomePage = NullValidationHelper.StringNullValidation(request.HomePage,result.HomePage);
-                    result.ContactName = NullValidationHelper.StringNullValidation(request.ContactName,result.ContactName);
-                    result.CityID = NullValidationHelper.BindIfNotZero(request.CityID,result.CityID); // Bind if greater than 0
-                    result.Fax = NullValidationHelper.StringNullValidation(request.Fax,result.Fax);
-                    result.Phone = NullValidationHelper.StringNullValidation(request.Phone,result.Phone);
-
-                    searchResult.ResultMessage = string.Empty;
+                    result.Phone = NullValidationHelper.StringNullValidation(shipper.Phone,result.Phone);
+                    _context.Shippers.Update(result);
+                    _context.SaveChanges();
+                    searchResult.ResultMessage = String.Empty;
                     searchResult.ResultObject = true;
                     searchResult.ResultType = ResultType.Success;
                 }
@@ -64,27 +58,27 @@ namespace OnlineLezzetler.Business.Concrete
             catch (Exception ex)
             {
                 searchResult.ResultMessage = ex.Message;
-                searchResult.ResultObject = false;
+                searchResult.ResultObject= false;
                 searchResult.ResultType = ResultType.Error;
             }
             return searchResult;
         }
 
-        public SearchResult<bool> DeleteSupplier(int id)
+        public SearchResult<bool> DeleteShipper(int id)
         {
             SearchResult<bool> searchResult = new();
 
             try
             {
-                var result = _context.Suppliers.Find(id);
+                var result = _context.Shippers.Find(id);
 
-                if (result != null)
+                if(result != null)
                 {
-                    result.IsActive = false;
-                    _context.Update(result);
+                    result.IsActive =false;
+                    _context.Shippers.Update(result);
                     _context.SaveChanges();
 
-                    searchResult.ResultMessage = string.Empty;
+                    searchResult.ResultMessage = String.Empty;
                     searchResult.ResultObject = true;
                     searchResult.ResultType = ResultType.Success;
                 }
@@ -98,96 +92,91 @@ namespace OnlineLezzetler.Business.Concrete
             catch (Exception ex)
             {
                 searchResult.ResultMessage = ex.Message;
-                searchResult.ResultType = ResultType.Error;
+                searchResult.ResultObject = false;
+                searchResult.ResultType= ResultType.Error;
             }
             return searchResult;
         }
 
-        public SearchResult<SupplierDto> EditSupplier(int id, SupplierDto request)
+        public SearchResult<bool> EditShipper(int id, ShipperDto shipper)
         {
-            SearchResult<SupplierDto> searchResult = new();
+            SearchResult<bool> searchResult= new();
 
             try
             {
-                var result = (from u in _context.Suppliers
-                              where u.IsActive == true && u.SupplierID == id
-                              select u).FirstOrDefault();
+                var result = _context.Shippers.Find(id);
 
-                if (result != null)
+                if(result != null)
                 {
-                    result.Address = NullValidationHelper.StringNullValidation(request.Address,result.Address); //Bind if not null or empty
-                    result.HomePage = NullValidationHelper.StringNullValidation(request.HomePage,result.HomePage);
-                    result.ContactName = NullValidationHelper.StringNullValidation(request.ContactName,result.ContactName);
-                    result.CityID = NullValidationHelper.BindIfNotZero(request.CityID, result.CityID); // Bind if greater than 0
-                    result.Fax = NullValidationHelper.StringNullValidation(request.Fax, result.Fax);
-                    result.Phone = NullValidationHelper.StringNullValidation(request.Phone, result.Phone);
-                    result.CompanyName = NullValidationHelper.StringNullValidation(request.CompanyName, result.CompanyName);
-
-                    _context.Suppliers.Update(result);
+                    result.CompanyName = NullValidationHelper.StringNullValidation(shipper.CompanyName,result.CompanyName);
+                    result.Phone = NullValidationHelper.StringNullValidation(shipper.Phone,result.Phone);
+                    _context.Shippers.Update(result);
                     _context.SaveChanges();
 
                     searchResult.ResultMessage = String.Empty;
-                    searchResult.ResultObject = _mapper.Map<SupplierDto>(result);
+                    searchResult.ResultObject= true;
                     searchResult.ResultType = ResultType.Success;
                 }
                 else
                 {
                     searchResult.ResultMessage = "Not Found !";
+                    searchResult.ResultObject = false;
                     searchResult.ResultType = ResultType.Warning;
                 }
             }
             catch (Exception ex)
             {
                 searchResult.ResultMessage = ex.Message;
+                searchResult.ResultObject = false;
                 searchResult.ResultType = ResultType.Error;
             }
             return searchResult;
         }
 
-        public SearchResult<SupplierDto> GetSupplier(int id)
+        public SearchResult<ShipperDto> GetShipper(int id)
         {
-            SearchResult<SupplierDto> searchResult = new();
+            SearchResult<ShipperDto> searchResult= new();
 
             try
             {
-                var result = (from u in _context.Suppliers
-                              where u.SupplierID == id
+                var result = (from u in _context.Shippers
+                              where u.ShipperID == id && u.IsActive == true
                               select u).FirstOrDefault();
 
-                if (result != null)
+                if(result != null)
                 {
                     searchResult.ResultMessage = String.Empty;
-                    searchResult.ResultObject = _mapper.Map<SupplierDto>(result);
+                    searchResult.ResultObject = _mapper.Map<ShipperDto>(result);
                     searchResult.ResultType = ResultType.Success;
                 }
                 else
                 {
-                    searchResult.ResultMessage = "Not Found !";
+                    searchResult.ResultMessage = "Not found !";
                     searchResult.ResultType = ResultType.Warning;
                 }
             }
             catch (Exception ex)
             {
-                searchResult.ResultMessage = ex.Message;
+                searchResult.ResultMessage= ex.Message;
                 searchResult.ResultType = ResultType.Error;
             }
             return searchResult;
         }
 
-        public SearchResult<List<SupplierDto>> GetSuppliers()
+        public SearchResult<List<ShipperDto>> GetShippers()
         {
-            SearchResult<List<SupplierDto>> searchResult = new();
+            SearchResult<List<ShipperDto>> searchResult = new();
 
             try
             {
-                var results = (from u in _context.Suppliers
+                var results = (from u in _context.Shippers
                                where u.IsActive == true
                                select u).ToList();
 
                 if (results.Any())
                 {
                     searchResult.ResultMessage = String.Empty;
-                    searchResult.ResultObject = _mapper.Map<List<SupplierDto>>(results);
+                    searchResult.ResultObject = _mapper.Map<List<ShipperDto>>(results);
                     searchResult.ResultType = ResultType.Success;
                 }
                 else
@@ -204,27 +193,26 @@ namespace OnlineLezzetler.Business.Concrete
             return searchResult;
         }
 
-        public SearchResult<List<SupplierDto>> SearchSupplier(SupplierSearchRequest request)
+        public SearchResult<List<ShipperDto>> SearchShipper(ShipperSearchRequest request)
         {
-            SearchResult<List<SupplierDto>> searchResult = new();
+            SearchResult<List<ShipperDto>> searchResult = new();
 
             try
             {
-                var results = (from u in _context.Suppliers
+                var results = (from u in _context.Shippers
                                where u.IsActive == true &&
-                               (request.CityName == null || u.City.CityName.Contains(request.CityName)) &&
-                               (request.CompanyName == null || u.CompanyName.Contains(request.CompanyName))
+                               string.IsNullOrEmpty(request.ShipperName) || u.CompanyName.Contains(request.ShipperName)
                                select u).ToList();
 
                 if (results.Any())
                 {
                     searchResult.ResultMessage = String.Empty;
-                    searchResult.ResultObject = _mapper.Map<List<SupplierDto>>(results);
+                    searchResult.ResultObject = _mapper.Map<List<ShipperDto>>(results);
                     searchResult.ResultType = ResultType.Success;
                 }
                 else
                 {
-                    searchResult.ResultMessage = "Not Found !";
+                    searchResult.ResultMessage = "Not found !";
                     searchResult.ResultType = ResultType.Warning;
                 }
             }
@@ -237,4 +225,3 @@ namespace OnlineLezzetler.Business.Concrete
         }
     }
 }
-

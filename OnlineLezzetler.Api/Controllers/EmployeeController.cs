@@ -72,7 +72,7 @@ namespace OnlineLezzetler.Api.Controllers
             };
         }
 
-        [HttpPut, Route("{id}")]
+        [HttpPut]
         public ActionResult EditEmployee(int id, EmployeeDto employee)
         {
             var result = _employeeService.EditEmployee(id, employee);

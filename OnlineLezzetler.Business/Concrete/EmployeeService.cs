@@ -46,14 +46,14 @@ namespace OnlineLezzetler.Business.Concrete
                 else if(result != null && result.IsFired == true) //ReHired to the job
                 {
                     result.IsFired = false;
-                    NullValidationHelper.StringNullValidation(request.Title, result.Title); 
-                    NullValidationHelper.StringNullValidation(request.Phone, result.Phone);
-                    NullValidationHelper.BindIfNotZero(request.EmployeeCityID, result.City.CityID);
-                    NullValidationHelper.StringNullValidation(request.Address, result.Address);
-                    NullValidationHelper.BindIfNotZero(request.Salary, result.Salary);
-                    NullValidationHelper.BindDateTimeIfNotNull(request.HiredDate, result.HiredDate);
-                    NullValidationHelper.StringNullValidation(request.Notes, result.Notes);
-                    NullValidationHelper.StringNullValidation(request.PhotoPath, result.PhotoPath);
+                    result.Title = NullValidationHelper.StringNullValidation(request.Title, result.Title); 
+                    result.Phone = NullValidationHelper.StringNullValidation(request.Phone, result.Phone);
+                    result.EmployeeCityID = NullValidationHelper.BindIfNotZero(request.EmployeeCityID, result.City.CityID);
+                    result.Address = NullValidationHelper.StringNullValidation(request.Address, result.Address);
+                    result.Salary = NullValidationHelper.BindIfNotZero(request.Salary, result.Salary);
+                    result.HiredDate = NullValidationHelper.BindDateTimeIfNotNull(request.HiredDate, result.HiredDate);
+                    result.Notes = NullValidationHelper.StringNullValidation(request.Notes, result.Notes);
+                    result.PhotoPath = NullValidationHelper.StringNullValidation(request.PhotoPath, result.PhotoPath);
 
                     _context.Employees.Update(result);
                     _context.SaveChanges();
@@ -124,15 +124,15 @@ namespace OnlineLezzetler.Business.Concrete
 
                 if(result != null)
                 {
-                    NullValidationHelper.StringNullValidation(request.Title, result.Title);
-                    NullValidationHelper.StringNullValidation(request.FirstName, result.FirstName);
-                    NullValidationHelper.StringNullValidation(request.LastName, result.LastName);
-                    NullValidationHelper.StringNullValidation(request.Phone, result.Phone);
-                    NullValidationHelper.BindIfNotZero(request.EmployeeCityID, result.City.CityID);
-                    NullValidationHelper.StringNullValidation(request.Address, result.Address);
-                    NullValidationHelper.BindIfNotZero(request.Salary, result.Salary);
-                    NullValidationHelper.StringNullValidation(request.Notes, result.Notes);
-                    NullValidationHelper.StringNullValidation(request.PhotoPath, result.PhotoPath);
+                    result.Title = NullValidationHelper.StringNullValidation(request.Title, result.Title);
+                    result.FirstName = NullValidationHelper.StringNullValidation(request.FirstName, result.FirstName);
+                    result.LastName = NullValidationHelper.StringNullValidation(request.LastName, result.LastName);
+                    result.Phone = NullValidationHelper.StringNullValidation(request.Phone, result.Phone);
+                    result.EmployeeCityID = NullValidationHelper.BindIfNotZero(request.EmployeeCityID, result.EmployeeCityID);
+                    result.Address = NullValidationHelper.StringNullValidation(request.Address, result.Address);
+                    result.Salary = NullValidationHelper.BindIfNotZero(request.Salary, result.Salary);
+                    result.Notes = NullValidationHelper.StringNullValidation(request.Notes, result.Notes);
+                    result.PhotoPath = NullValidationHelper.StringNullValidation(request.PhotoPath, result.PhotoPath);
 
                     _context.Employees.Update(result);
                     _context.SaveChanges();

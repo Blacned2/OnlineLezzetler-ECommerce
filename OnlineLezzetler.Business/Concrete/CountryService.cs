@@ -106,8 +106,8 @@ namespace OnlineLezzetler.Business.Concrete
 
                 if(result != null)
                 {
-                    NullValidationHelper.StringNullValidation(country.CountryName, result.CountryName);
-                    NullValidationHelper.StringNullValidation(country.CountryShortName,result.CountryShortName);
+                    result.CountryName = NullValidationHelper.StringNullValidation(country.CountryName, result.CountryName);
+                    result.CountryShortName = NullValidationHelper.StringNullValidation(country.CountryShortName,result.CountryShortName);
                     _context.Update(result);
                     _context.SaveChanges();
                     searchResult.ResultMessage = String.Empty;

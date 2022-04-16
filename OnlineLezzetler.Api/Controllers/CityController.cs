@@ -86,7 +86,7 @@ namespace OnlineLezzetler.Api.Controllers
             };
         }
 
-        [HttpPut, Route("{id}")]
+        [HttpPut]
         public ActionResult EditCity(int id, CityDto city)
         {
             var result = _cityService.EditCity(id, city);

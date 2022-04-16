@@ -76,7 +76,7 @@ namespace OnlineLezzetler.Api.Controllers
             }
         }
 
-        [HttpPut,Route("{id}")]
+        [HttpPut]
         public ActionResult EditCategory(int id,CategoryDto category)
         {
             var result = _categoryService.EditCategory(id,category);

@@ -9,18 +9,18 @@ namespace OnlineLezzetler.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class SupplierController : ControllerBase
+    public class ShipperController : ControllerBase
     {
-        private readonly ISupplierService _supplierService;
-        public SupplierController(ISupplierService supplierService)
+        private readonly IShipperService _shipperService;
+        public ShipperController(IShipperService shipperService)
         {
-            this._supplierService = supplierService;
+            this._shipperService = shipperService;
         }
 
         [HttpGet]
-        public ActionResult<List<SupplierDto>> SupplierList()
+        public ActionResult<List<ShipperDto>> ShipperList()
         {
-            var result = _supplierService.GetSuppliers();
+            var result = _shipperService.GetShippers();
             return result.ResultType switch
             {
                 ResultType.Success => Ok(result.ResultObject),
@@ -31,9 +31,9 @@ namespace OnlineLezzetler.Api.Controllers
         }
 
         [HttpGet, Route("{id}")]
-        public ActionResult GetSingleSupplier(int id)
+        public ActionResult GetSingleShipper(int id)
         {
-            var result = _supplierService.GetSupplier(id);
+            var result = _shipperService.GetShipper(id);
 
             return result.ResultType switch
             {
@@ -45,9 +45,10 @@ namespace OnlineLezzetler.Api.Controllers
         }
 
         [HttpPost]
-        public ActionResult AddSupplier(SupplierDto supplier)
+        public ActionResult AddShipper(ShipperDto supplier)
         {
-            var result = _supplierService.AddSupplier(supplier);
+
+            var result = _shipperService.AddShipper(supplier);
 
             return result.ResultType switch
             {
@@ -59,9 +60,9 @@ namespace OnlineLezzetler.Api.Controllers
         }
 
         [HttpDelete]
-        public ActionResult DeleteSupplier(int id)
+        public ActionResult DeleteShipper(int id)
         {
-            var result = _supplierService.DeleteSupplier(id);
+            var result = _shipperService.DeleteShipper(id);
 
             return result.ResultType switch
             {
@@ -73,9 +74,9 @@ namespace OnlineLezzetler.Api.Controllers
         }
 
         [HttpPut]
-        public ActionResult EditSupplier(int id, SupplierDto supplier)
+        public ActionResult EditShipper(int id, ShipperDto supplier)
         {
-            var result = _supplierService.EditSupplier(id, supplier);
+            var result = _shipperService.EditShipper(id, supplier);
 
             return result.ResultType switch
             {
@@ -87,9 +88,9 @@ namespace OnlineLezzetler.Api.Controllers
         }
 
         [HttpPost, Route("Search")]
-        public ActionResult SearchSupplier(SupplierSearchRequest search)
+        public ActionResult SearchShipper(ShipperSearchRequest search)
         {
-            var results = _supplierService.SearchSupplier(search);
+            var results = _shipperService.SearchShipper(search);
 
             return results.ResultType switch
             {

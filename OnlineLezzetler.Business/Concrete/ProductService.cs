@@ -40,12 +40,12 @@ namespace OnlineLezzetler.Business.Concrete
                 }
                 else
                 {
-                    NullValidationHelper.StringNullValidation(product.ProductName, result.ProductName);
-                    NullValidationHelper.BindIfNotZero(product.CategoryID, result.CategoryID);
-                    NullValidationHelper.BindIfNotZero(product.SupplierID, result.SupplierID);
-                    NullValidationHelper.BindIfNotZero(product.UnitPrice, result.UnitPrice);
-                    NullValidationHelper.BindIfNotZero(product.UnitInStock, result.UnitInStock);
-                    NullValidationHelper.BindIfNotZero(product.UnitOnOrder, result.UnitOnOrder);
+                    result.ProductName = NullValidationHelper.StringNullValidation(product.ProductName, result.ProductName);
+                    result.CategoryID = NullValidationHelper.BindIfNotZero(product.CategoryID, result.CategoryID);
+                    result.SupplierID = NullValidationHelper.BindIfNotZero(product.SupplierID, result.SupplierID);
+                    result.UnitPrice = NullValidationHelper.BindIfNotZero(product.UnitPrice, result.UnitPrice);
+                    result.UnitInStock = NullValidationHelper.BindIfNotZero(product.UnitInStock, result.UnitInStock);
+                    result.UnitOnOrder = NullValidationHelper.BindIfNotZero(product.UnitOnOrder, result.UnitOnOrder);
                     result.DisContinued = product.DisContinued;
 
                     _context.Products.Update(result);

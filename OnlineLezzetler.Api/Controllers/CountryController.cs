@@ -76,7 +76,7 @@ namespace OnlineLezzetler.Api.Controllers
             }
         }
 
-        [HttpPut, Route("{id}")]
+        [HttpPut]
         public ActionResult EditCountry(int id, CountryDto country)
         {
             var result = _countryService.EditCountry(id, country);

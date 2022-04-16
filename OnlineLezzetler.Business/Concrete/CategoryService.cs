@@ -20,7 +20,7 @@ namespace OnlineLezzetler.Business.Concrete
 
         public SearchResult<CategoryDto> AddCategory(CategoryDto category)
         {
-            SearchResult<CategoryDto> searchResult = new SearchResult<CategoryDto>();
+            SearchResult<CategoryDto> searchResult = new();
 
             try
             {
@@ -64,7 +64,7 @@ namespace OnlineLezzetler.Business.Concrete
 
         public SearchResult<bool> DeleteCategory(int id)
         {
-            SearchResult<bool> searchResult = new SearchResult<bool>();
+            SearchResult<bool> searchResult = new();
 
             try
             {
@@ -95,7 +95,7 @@ namespace OnlineLezzetler.Business.Concrete
 
         public SearchResult<CategoryDto> EditCategory(int id, CategoryDto category)
         {
-            SearchResult<CategoryDto> searchResult = new SearchResult<CategoryDto>();
+            SearchResult<CategoryDto> searchResult = new();
 
             try
             {
@@ -135,7 +135,7 @@ namespace OnlineLezzetler.Business.Concrete
 
         public SearchResult<List<CategoryDto>> GetCategories()
         {
-            SearchResult<List<CategoryDto>> searchResult = new SearchResult<List<CategoryDto>>();
+            SearchResult<List<CategoryDto>> searchResult = new();
 
             try
             {
@@ -166,7 +166,7 @@ namespace OnlineLezzetler.Business.Concrete
 
         public SearchResult<CategoryDto> GetSingleCategory(int id)
         {
-            SearchResult<CategoryDto> searchResult = new SearchResult<CategoryDto>();
+            SearchResult<CategoryDto> searchResult = new();
 
             try
             {
@@ -197,7 +197,7 @@ namespace OnlineLezzetler.Business.Concrete
 
         public SearchResult<List<CategoryDto>> SearchCategories(CategorySearchRequest request)
         {
-            SearchResult<List<CategoryDto>> searchResult = new SearchResult<List<CategoryDto>>();
+            SearchResult<List<CategoryDto>> searchResult = new();
 
             try
             {
