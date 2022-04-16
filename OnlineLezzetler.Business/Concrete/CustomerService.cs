@@ -13,70 +13,67 @@ using System.Threading.Tasks;
 
 namespace OnlineLezzetler.Business.Concrete
 {
-    public class ProductService : BaseAppService, IProductService
+    public class CustomerService : BaseAppService, ICustomerService
     {
         private readonly IMapper _mapper;
-        public ProductService(OnlineLezzetlerContext context, IMapper mapper) : base(context)
+        public CustomerService(OnlineLezzetlerContext context, IMapper mapper) : base(context)
         {
             this._mapper = mapper;
         }
 
-        public SearchResult<bool> CreateOrEditProduct(int? id, ProductDto product)
+        public SearchResult<bool> AddCustomer(CustomerDto customer)
         {
             SearchResult<bool> searchResult = new();
 
             try
             {
-                var result = _context.Products.Find(id);
+                var result = (from u in _context.Customers
+                              where u.Email == customer.Email
+                              select u).First();
 
                 if (result == null)
                 {
-                    _context.Products.Add(_mapper.Map<Product>(product));
+                    _context.Customers.Add(_mapper.Map<Customer>(customer));
                     _context.SaveChanges();
 
-                    searchResult.ResultMessage = String.Empty;
+                    searchResult.ResultMessage = string.Empty;
                     searchResult.ResultObject = true;
                     searchResult.ResultType = ResultType.Success;
                 }
                 else
                 {
-                    result.ProductName = NullValidationHelper.StringNullValidation(product.ProductName, result.ProductName);
-                    result.CategoryID = NullValidationHelper.BindIfNotZero(product.CategoryID, result.CategoryID);
-                    result.SupplierID = NullValidationHelper.BindIfNotZero(product.SupplierID, result.SupplierID);
-                    result.UnitPrice = NullValidationHelper.BindIfNotZero(product.UnitPrice, result.UnitPrice);
-                    result.UnitInStock = NullValidationHelper.BindIfNotZero(product.UnitInStock, result.UnitInStock);
-                    result.UnitOnOrder = NullValidationHelper.BindIfNotZero(product.UnitOnOrder, result.UnitOnOrder);
-                    result.DisContinued = product.DisContinued;
-
-                    _context.Products.Update(result);
-                    _context.SaveChanges();
-
-                    searchResult.ResultMessage = String.Empty;
-                    searchResult.ResultObject = true;
-                    searchResult.ResultType = ResultType.Success;
+                    searchResult.ResultMessage = "Already exist !";
+                    searchResult.ResultType = ResultType.Warning;
+                    searchResult.ResultObject = false;
                 }
             }
             catch (Exception ex)
             {
                 searchResult.ResultMessage = ex.Message;
-                searchResult.ResultType = ResultType.Error;
                 searchResult.ResultObject = false;
+                searchResult.ResultType = ResultType.Error;
             }
             return searchResult;
         }
 
-        public SearchResult<bool> DeleteProduct(int id)
+        public SearchResult<bool> EditCustomer(int id, CustomerDto customer)
         {
             SearchResult<bool> searchResult = new();
 
             try
             {
-                var result = _context.Products.Find(id);
+                var result = _context.Customers.Find(id);
 
                 if (result != null)
                 {
-                    result.DisContinued = true;
-                    _context.Products.Update(result);
+                    result.Address = NullValidationHelper.StringNullValidation(customer.Address, result.Address);
+                    result.CustomerName = NullValidationHelper.StringNullValidation(customer.CustomerName, result.CustomerName);
+                    result.Fax = NullValidationHelper.StringNullValidation(customer.Fax, result.Fax);
+                    result.CityID = NullValidationHelper.BindIfNotZero(customer.CityID, result.CityID);
+                    result.CompanyName = NullValidationHelper.StringNullValidation(customer.CompanyName, result.CompanyName);
+                    result.Phone = NullValidationHelper.StringNullValidation(customer.Phone, result.Phone);
+
+                    _context.Customers.Update(result);
                     _context.SaveChanges();
 
                     searchResult.ResultMessage = String.Empty;
@@ -89,6 +86,7 @@ namespace OnlineLezzetler.Business.Concrete
                     searchResult.ResultObject = false;
                     searchResult.ResultType = ResultType.Warning;
                 }
+
             }
             catch (Exception ex)
             {
@@ -99,20 +97,18 @@ namespace OnlineLezzetler.Business.Concrete
             return searchResult;
         }
 
-        public SearchResult<ProductDto> GetProduct(int id)
+        public SearchResult<CustomerDto> GetCustomer(int id)
         {
-            SearchResult<ProductDto> searchResult = new();
+            SearchResult<CustomerDto> searchResult = new();
 
             try
             {
-                var result = (from u in _context.Products
-                              where u.DisContinued == false && u.ProductID == id
-                              select u).FirstOrDefault();
+                var result = _context.Customers.Find(id);
 
                 if (result != null)
                 {
-                    searchResult.ResultMessage = String.Empty;
-                    searchResult.ResultObject = _mapper.Map<ProductDto>(result);
+                    searchResult.ResultMessage = string.Empty;
+                    searchResult.ResultObject = _mapper.Map<CustomerDto>(result);
                     searchResult.ResultType = ResultType.Success;
                 }
                 else
@@ -129,27 +125,25 @@ namespace OnlineLezzetler.Business.Concrete
             return searchResult;
         }
 
-        public SearchResult<HashSet<ProductDto>> GetProducts()
+        public SearchResult<List<CustomerDto>> GetCustomers()
         {
-            SearchResult<HashSet<ProductDto>> searchResult = new();
+            SearchResult<List<CustomerDto>> searchResult = new();
 
             try
             {
-                var results = (from u in _context.Products
-                               where u.DisContinued == false
-                               select u).ToHashSet(); //I used hashset because higher amount of product will be in the project.
-                //Hashsets are better in case of high amount of data..
+                var results = (from u in _context.Customers
+                               select u).ToList();
 
                 if (results.Any())
                 {
-                    searchResult.ResultMessage = String.Empty;
-                    searchResult.ResultObject = _mapper.Map<HashSet<ProductDto>>(results);
+                    searchResult.ResultMessage = string.Empty;
+                    searchResult.ResultObject = _mapper.Map<List<CustomerDto>>(results);
                     searchResult.ResultType = ResultType.Success;
                 }
                 else
                 {
                     searchResult.ResultMessage = "Not found !";
-                    searchResult.ResultType= ResultType.Warning;
+                    searchResult.ResultType = ResultType.Warning;
                 }
             }
             catch (Exception ex)
@@ -160,31 +154,27 @@ namespace OnlineLezzetler.Business.Concrete
             return searchResult;
         }
 
-        public SearchResult<HashSet<ProductDto>> SearchProduct(ProductSearchRequest request)
+        public SearchResult<List<CustomerDto>> SearchCustomer(string customerName)
         {
-            SearchResult<HashSet<ProductDto>> searchResult = new();
+            SearchResult<List<CustomerDto>> searchResult = new();
 
             try
             {
-                var results = (from u in _context.Products
-                               where u.DisContinued == false &&
-                               (string.IsNullOrEmpty(request.ProductName) || u.ProductName.Contains(request.ProductName)) &&
-                               (string.IsNullOrEmpty(request.CategoryName) || u.Category.CategoryName.Contains(request.CategoryName))
-                               select u).ToHashSet();//I used hashset because higher amount of product will be in the project.
-                //Hashsets are better in case of high amount of data..
+                var results = (from u in _context.Customers
+                               where u.CustomerName.Contains(customerName)
+                               select u).ToList();
 
                 if (results.Any())
                 {
                     searchResult.ResultMessage = String.Empty;
-                    searchResult.ResultObject = _mapper.Map<HashSet<ProductDto>>(results);
+                    searchResult.ResultObject = _mapper.Map<List<CustomerDto>>(results);
                     searchResult.ResultType = ResultType.Success;
                 }
                 else
                 {
-                    searchResult.ResultMessage = "Not found !";
+                    searchResult.ResultMessage = "Not Found !";
                     searchResult.ResultType = ResultType.Warning;
                 }
-               
             }
             catch (Exception ex)
             {

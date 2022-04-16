@@ -174,20 +174,21 @@ namespace OnlineLezzetler.Business.Concrete
             return searchResult;
         }
 
-        public SearchResult<List<SupplierDto>> GetSuppliers()
+        public SearchResult<HashSet<SupplierDto>> GetSuppliers()
         {
-            SearchResult<List<SupplierDto>> searchResult = new();
+            SearchResult<HashSet<SupplierDto>> searchResult = new();
 
             try
             {
                 var results = (from u in _context.Suppliers
                                where u.IsActive == true
-                               select u).ToList();
+                               select u).ToHashSet();//I used hashset because higher amount of product will be in the project.
+                //Hashsets are better in case of high amount of data..
 
                 if (results.Any())
                 {
                     searchResult.ResultMessage = String.Empty;
-                    searchResult.ResultObject = _mapper.Map<List<SupplierDto>>(results);
+                    searchResult.ResultObject = _mapper.Map<HashSet<SupplierDto>>(results);
                     searchResult.ResultType = ResultType.Success;
                 }
                 else

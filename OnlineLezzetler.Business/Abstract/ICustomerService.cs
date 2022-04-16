@@ -12,9 +12,8 @@ namespace OnlineLezzetler.Business.Abstract
     {
         SearchResult<List<CustomerDto>> GetCustomers();
         SearchResult<CustomerDto> GetCustomer(int id);
-        SearchResult<bool> AddCustomer(CustomerDto customer);
-        SearchResult<bool> DeleteCustomer(int id);
-        SearchResult<bool> DeleteCustomer(int id,CustomerDto customer);
-        SearchResult<List<CustomerDto>> SearchCustomer(CustomerSearchRequest request);
+        SearchResult<bool> AddCustomer(CustomerDto customer); 
+        SearchResult<bool> EditCustomer(int id,CustomerDto customer);
+        SearchResult<List<CustomerDto>> SearchCustomer(string customerName);
     }
 }

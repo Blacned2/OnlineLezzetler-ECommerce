@@ -13,16 +13,18 @@ namespace OnlineLezzetler.Data.Models
         [Key]
         public int CustomerID { get; set; }
         public int CityID { get; set; }
+        [Required]
         public string CustomerName { get; set; }
 #nullable enable
         public string? CompanyName { get; set; }
-#nullable disable
-        public string Address { get; set; }
-        public string Phone { get; set; }
-#nullable enable
         public string? Fax { get; set; }
 #nullable disable
-        public bool IsActive { get; set; } = true;
+        [Required]
+        public string Address { get; set; }
+        [Required]
+        public string Email { get; set; }
+        [Required]
+        public string Phone { get; set; } 
 
         [ForeignKey("CityID")]
         public virtual City City { get; set; }

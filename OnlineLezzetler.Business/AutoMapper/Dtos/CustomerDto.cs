@@ -16,6 +16,7 @@ namespace OnlineLezzetler.Business.AutoMapper.Dtos
         public string? Fax { get; set; }
 #nullable disable
         public string Address { get; set; }
+        public string Email { get; set; }
         public string Phone { get; set; }
     }
 }

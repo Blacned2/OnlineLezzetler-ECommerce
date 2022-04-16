@@ -10,10 +10,10 @@ namespace OnlineLezzetler.Business.Abstract
 {
     public interface IProductService
     {
-        SearchResult<List<ProductDto>> GetProducts();
+        SearchResult<HashSet<ProductDto>> GetProducts();
         SearchResult<ProductDto> GetProduct(int id);
         SearchResult<bool> DeleteProduct(int id);
         SearchResult<bool> CreateOrEditProduct(int? id, ProductDto product);
-        SearchResult<List<ProductDto>> SearchProduct(ProductSearchRequest request);
+        SearchResult<HashSet<ProductDto>> SearchProduct(ProductSearchRequest request);
     }
 }
