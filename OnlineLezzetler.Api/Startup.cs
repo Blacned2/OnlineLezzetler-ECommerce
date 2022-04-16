@@ -34,6 +34,7 @@ namespace OnlineLezzetler.Api
                 mc.AddProfile(new RegionProfile());
                 mc.AddProfile(new SupplierProfile());
                 mc.AddProfile(new EmployeeProfile());
+                mc.AddProfile(new ProductProfile());
             });
 
             IMapper mapper = mapperConfig.CreateMapper();
@@ -44,6 +45,7 @@ namespace OnlineLezzetler.Api
             services.AddScoped<ICityService, CityService>();
             services.AddScoped<ISupplierService, SupplierService>();
             services.AddScoped<IEmployeeService, EmployeeService>();
+            services.AddScoped<IProductService, ProductService>();
             services.AddDbContext<OnlineLezzetlerContext>(option => option.UseSqlServer(Configuration.GetConnectionString("OnlineLezzetler")));
             services.AddControllers();
             services.AddSwaggerGen(c =>
