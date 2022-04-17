@@ -14,18 +14,19 @@ namespace OnlineLezzetler.Business.AutoMapper.Profiles
         public OrderDetailProfile()
         {
             CreateMap<OrderDetail, OrderDetailDto>()
-                .ForMember(dest => dest.ProductID, act => act.MapFrom(src => src.ProductID)) 
+                .ForMember(dest => dest.ProductID, act => act.MapFrom(src => src.ProductID))
                 .ForMember(dest => dest.DetailID, act => act.MapFrom(src => src.DetailID))
+                .ForMember(dest=>dest.Products,act => act.MapFrom(src => src.Product))
                 .ForMember(dest => dest.Quantity, act => act.MapFrom(src => src.Quantity))
-                .ForMember(dest => dest.Discount, act => act.MapFrom(src => src.Discount))
-                .ForMember(dest => dest.UnitPrice, act => act.MapFrom(src => src.UnitPrice));
+                .ForMember(dest => dest.Discount, act => act.MapFrom(src => src.Discount));
 
             CreateMap<OrderDetailDto, OrderDetail>()
-                .ForMember(dest => dest.ProductID, act => act.MapFrom(src => src.ProductID)) 
+                .ForMember(dest => dest.ProductID, act => act.MapFrom(src => src.ProductID))
                 .ForMember(dest => dest.DetailID, act => act.MapFrom(src => src.DetailID))
+                .ForMember(dest => dest.Product, act => act.MapFrom(src => src.Products))
                 .ForMember(dest => dest.Quantity, act => act.MapFrom(src => src.Quantity))
-                .ForMember(dest => dest.Discount, act => act.MapFrom(src => src.Discount))
-                .ForMember(dest => dest.UnitPrice, act => act.MapFrom(src => src.UnitPrice));
+                .ForMember(dest => dest.Discount, act => act.MapFrom(src => src.Discount));
+                
         }
     }
 }

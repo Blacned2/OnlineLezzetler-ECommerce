@@ -26,7 +26,8 @@ namespace OnlineLezzetler.Data.Models
         public DateTime OrderDate { get; set; }
         public DateTime RequiredDate { get; set; }
         public DateTime ShippedDate { get; set; }
-        public float Freight { get; set; }
+        public float Freight { get; set; } 
+        public bool IsCancelled { get; set; } = false;
 
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public Guid GUID { get; set; } 

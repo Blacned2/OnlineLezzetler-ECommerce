@@ -1,4 +1,5 @@
-﻿using System;
+﻿using OnlineLezzetler.Data.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,7 +11,7 @@ namespace OnlineLezzetler.Business.AutoMapper.Dtos
     {
         public int DetailID { get; set; } 
         public int ProductID { get; set; }
-        public string ProductName { get; set; }
+        public Product Products { get; set; }
         public double UnitPrice { get; set; }
         public int Quantity { get; set; }
         public float Discount { get; set; }
