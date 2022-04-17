@@ -37,6 +37,8 @@ namespace OnlineLezzetler.Api
                 mc.AddProfile(new ProductProfile());
                 mc.AddProfile(new ShipperProfile());
                 mc.AddProfile(new SupplierProfile());
+                mc.AddProfile(new OrderProfile());
+                mc.AddProfile(new OrderDetailProfile());
             });
 
             IMapper mapper = mapperConfig.CreateMapper();

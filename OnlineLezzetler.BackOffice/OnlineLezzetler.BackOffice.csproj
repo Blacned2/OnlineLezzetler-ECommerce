@@ -4,7 +4,7 @@
     <TargetFramework>net6.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
-    <UserSecretsId>aspnet-OnlineLezzetler.BackOffice-9562A228-7C7D-432C-B801-1907F6C87BBA</UserSecretsId>
+    <UserSecretsId>aspnet-OnlineLezzetler.BackOffice-C1A132B6-FC9B-4CD8-B40A-4385B8C74BBB</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
