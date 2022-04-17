@@ -10,6 +10,7 @@ namespace OnlineLezzetler.Business.Abstract
 {
     public interface IOrderDetailService
     {
-        SearchResult<OrderDetailDto> GetOrderDetails(int id); //Both client and supplier sees
+        SearchResult<List<OrderDetailDto>> GetOrderDetails();
+        SearchResult<OrderDetailDto> GetOrderDetail(int id); //Both client and supplier sees
     }
 }

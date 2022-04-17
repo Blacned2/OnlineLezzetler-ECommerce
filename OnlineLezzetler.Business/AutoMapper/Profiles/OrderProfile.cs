@@ -14,8 +14,7 @@ namespace OnlineLezzetler.Business.AutoMapper.Profiles
         public OrderProfile()
         {
             CreateMap<Order, OrderDto>()
-                .ForMember(dest => dest.OrderID, act => act.MapFrom(src => src.OrderID))
-                .ForMember(dest => dest.EmployeeID, act => act.MapFrom(src => src.EmployeeID))
+                .ForMember(dest => dest.OrderID, act => act.MapFrom(src => src.OrderID)) 
                 .ForMember(dest => dest.CustomerID, act => act.MapFrom(src => src.CustomerID))
                 .ForMember(dest => dest.ShipperID, act => act.MapFrom(src => src.ShipperID))
                 .ForMember(dest => dest.DetailID, act => act.MapFrom(src => src.DetailID))
@@ -26,8 +25,7 @@ namespace OnlineLezzetler.Business.AutoMapper.Profiles
                 .ForMember(dest => dest.Freight, act => act.MapFrom(src => src.Freight));
 
             CreateMap<OrderDto, Order>()
-                .ForMember(dest => dest.OrderID, act => act.MapFrom(src => src.OrderID))
-                .ForMember(dest => dest.EmployeeID, act => act.MapFrom(src => src.EmployeeID))
+                .ForMember(dest => dest.OrderID, act => act.MapFrom(src => src.OrderID)) 
                 .ForMember(dest => dest.CustomerID, act => act.MapFrom(src => src.CustomerID))
                 .ForMember(dest => dest.ShipperID, act => act.MapFrom(src => src.ShipperID))
                 .ForMember(dest => dest.DetailID, act => act.MapFrom(src => src.DetailID))

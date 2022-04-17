@@ -11,7 +11,7 @@ namespace OnlineLezzetler.Data.Models
     public class OrderDetail
     {
         [Key]
-        public int DetailID { get; set; } 
+        public int DetailID { get; set; }
         public int ProductID { get; set; }
         public double UnitPrice { get; set; }
         public int Quantity { get; set; }

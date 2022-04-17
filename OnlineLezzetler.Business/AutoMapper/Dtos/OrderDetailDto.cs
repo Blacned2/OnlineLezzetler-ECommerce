@@ -8,9 +8,9 @@ namespace OnlineLezzetler.Business.AutoMapper.Dtos
 {
     public class OrderDetailDto
     {
-        public int DetailID { get; set; }
-        public int OrderID { get; set; }
+        public int DetailID { get; set; } 
         public int ProductID { get; set; }
+        public string ProductName { get; set; }
         public double UnitPrice { get; set; }
         public int Quantity { get; set; }
         public float Discount { get; set; }

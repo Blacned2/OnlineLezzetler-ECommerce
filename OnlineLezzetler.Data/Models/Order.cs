@@ -11,9 +11,7 @@ namespace OnlineLezzetler.Data.Models
     public class Order
     {
         [Key]
-        public int OrderID { get; set; }
-        [ForeignKey("EmployeeID")]
-        public int? EmployeeID { get; set; }
+        public int OrderID { get; set; } 
 
         [ForeignKey("CustomerID")]
         public int? CustomerID { get; set; }
@@ -31,8 +29,7 @@ namespace OnlineLezzetler.Data.Models
         public float Freight { get; set; }
 
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public Guid GUID { get; set; }
-        public virtual Employee Employee { get; set; }
+        public Guid GUID { get; set; } 
         public virtual Customer Customer { get; set; }
         public virtual City City { get; set; } 
         public virtual Shipper Shipper { get; set; } 
