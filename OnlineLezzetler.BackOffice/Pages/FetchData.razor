@@ -1,15 +1,16 @@
 ﻿@page "/fetchdata"
+@using OnlineLezzetler.Business.AutoMapper.Dtos
+@using OnlineLezzetler.Business.Models
 
 <PageTitle>Weather forecast</PageTitle>
 
-@using OnlineLezzetler.BackOffice.Data
-@inject WeatherForecastService ForecastService
+
 
 <h1>Weather forecast</h1>
 
 <p>This component demonstrates fetching data from a service.</p>
 
-@if (forecasts == null)
+@if (cities == null)
 {
     <p><em>Loading...</em></p>
 }
@@ -18,20 +19,20 @@ else
     <table class="table">
         <thead>
             <tr>
-                <th>Date</th>
-                <th>Temp. (C)</th>
-                <th>Temp. (F)</th>
-                <th>Summary</th>
+                <th>ID</th>
+                <th>City</th>
+                <th>Region ID</th>
+                <th>Postal Code</th>
             </tr>
         </thead>
         <tbody>
-            @foreach (var forecast in forecasts)
+            @foreach (var forecast in cities.ResultObject)
             {
                 <tr>
-                    <td>@forecast.Date.ToShortDateString()</td>
-                    <td>@forecast.TemperatureC</td>
-                    <td>@forecast.TemperatureF</td>
-                    <td>@forecast.Summary</td>
+                    <td>@forecast.CityID</td>
+                    <td>@forecast.CityName</td>
+                    <td>@forecast.RegionID</td>
+                    <td>@forecast.PostalCode</td>
                 </tr>
             }
         </tbody>
@@ -39,10 +40,12 @@ else
 }
 
 @code {
-    private WeatherForecast[]? forecasts;
+    SearchResult<List<CityDto>> cities = new();
 
-    protected override async Task OnInitializedAsync()
+    protected override  void OnInitialized()
     {
-        forecasts = await ForecastService.GetForecastAsync(DateTime.Now);
+        cities =  _cityService.GetCities();
     }
+    
+    
 }
