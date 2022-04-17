@@ -70,12 +70,8 @@ namespace OnlineLezzetler.Business.Concrete
                     result.OrderDetail.Quantity = NullValidationHelper.BindIfNotZero(details.Quantity, result.OrderDetail.Quantity);
                     result.RequiredDate = DateTime.Now.AddMinutes(30);
                     result.ShippedCityID = NullValidationHelper.BindIfNotZero(order.ShippedCityID, (int)result.ShippedCityID);
-                    
-                    foreach(var item in details.Products)
-                    {
-                        result.OrderDetail.OrderPrice += item.UnitPrice;
-                    }
 
+                    result.OrderDetail.OrderPrice = details.Products.UnitPrice;
                     _context.Orders.Update(result);
                     _context.SaveChanges();
 
@@ -157,12 +153,7 @@ namespace OnlineLezzetler.Business.Concrete
 
             try
             {
-                double toplam = 0;
-                foreach(var price in order.OrderDetail.Product)
-                {
-                    toplam += price.UnitPrice;   
-                }
-                order.OrderDetail.OrderPrice = toplam;
+                order.OrderDetail.OrderPrice = order.OrderDetail.Product.UnitPrice;
                 _context.Orders.Add(order);
                 _context.SaveChanges();
                 
