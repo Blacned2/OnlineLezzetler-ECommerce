@@ -16,7 +16,9 @@ namespace OnlineLezzetler.Data.Models
         public int? EmployeeID { get; set; }
 
         [ForeignKey("CustomerID")]
-        public int? CustomerID { get; set; } 
+        public int? CustomerID { get; set; }
+        [ForeignKey("DetailID")]
+        public int DetailID { get; set; }
 
         [ForeignKey("ShipperID")]
         public int? ShipperID { get; set; }  
@@ -34,6 +36,7 @@ namespace OnlineLezzetler.Data.Models
         public virtual Customer Customer { get; set; }
         public virtual City City { get; set; } 
         public virtual Shipper Shipper { get; set; } 
+        public virtual OrderDetail OrderDetail { get; set; }
          
         public Order()
         {

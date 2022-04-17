@@ -11,6 +11,7 @@ namespace OnlineLezzetler.Business.AutoMapper.Dtos
         public int OrderID { get; set; }
         public int EmployeeID { get; set; }
         public int CustomerID { get; set; }
+        public int DetailID { get; set; }
         public int ShipperID { get; set; }
         public int ShippedCityID { get; set; }
         public DateTime OrderDate { get; set; }
