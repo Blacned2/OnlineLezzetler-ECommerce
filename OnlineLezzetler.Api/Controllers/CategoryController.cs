@@ -1,9 +1,8 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using OnlineLezzetler.Business.Abstract;
 using OnlineLezzetler.Business.AutoMapper.Dtos;
 using OnlineLezzetler.Business.Models;
-using System.Collections.Generic;
+using System.Collections.Generic; 
 
 namespace OnlineLezzetler.Api.Controllers
 {
@@ -12,9 +11,9 @@ namespace OnlineLezzetler.Api.Controllers
     public class CategoryController : ControllerBase
     {
         private readonly ICategoryService _categoryService;
-        public CategoryController(ICategoryService categoryService)
+        public CategoryController(ICategoryService categoryService )
         {
-            this._categoryService = categoryService;
+            this._categoryService = categoryService; 
         }
 
         [HttpGet]
@@ -61,7 +60,7 @@ namespace OnlineLezzetler.Api.Controllers
             }
         }
 
-        [HttpDelete]
+        [HttpDelete,Route("{id}")]
         public ActionResult DeleteCategory(int id)
         {
             var result = _categoryService.DeleteCategory(id);
@@ -76,7 +75,7 @@ namespace OnlineLezzetler.Api.Controllers
             }
         }
 
-        [HttpPut]
+        [HttpPut,Route("{id}")]
         public ActionResult EditCategory(int id,CategoryDto category)
         {
             var result = _categoryService.EditCategory(id,category);

@@ -61,7 +61,7 @@ namespace OnlineLezzetler.Api.Controllers
             }
         }
 
-        [HttpDelete]
+        [HttpDelete, Route("{id}")]
         public ActionResult DeleteCountry(int id)
         {
             var result = _countryService.DeleteCountry(id);
@@ -76,7 +76,7 @@ namespace OnlineLezzetler.Api.Controllers
             }
         }
 
-        [HttpPut]
+        [HttpPut,Route("{id}")]
         public ActionResult EditCountry(int id, CountryDto country)
         {
             var result = _countryService.EditCountry(id, country);

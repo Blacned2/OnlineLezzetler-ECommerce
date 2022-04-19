@@ -58,7 +58,7 @@ namespace OnlineLezzetler.Api.Controllers
             };
         }
 
-        [HttpDelete]
+        [HttpDelete, Route("{id}")]
         public ActionResult DeleteProduct(int id)
         {
             var result = _productService.DeleteProduct(id);

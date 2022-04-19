@@ -58,7 +58,7 @@ namespace OnlineLezzetler.Api.Controllers
             };
         }
 
-        [HttpDelete]
+        [HttpDelete, Route("{id}")]
         public ActionResult DeleteEmployee(int id)
         {
             var result = _employeeService.DeleteEmployee(id);
@@ -72,7 +72,7 @@ namespace OnlineLezzetler.Api.Controllers
             };
         }
 
-        [HttpPut]
+        [HttpPut, Route("{id}")]
         public ActionResult EditEmployee(int id, EmployeeDto employee)
         {
             var result = _employeeService.EditEmployee(id, employee);

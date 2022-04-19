@@ -58,7 +58,7 @@ namespace OnlineLezzetler.Api.Controllers
             };
         }
 
-        [HttpPut]
+        [HttpPut, Route("{id}")]
         public ActionResult EditCustomer(int id, CustomerDto supplier)
         {
             var result = _customerService.EditCustomer(id, supplier);

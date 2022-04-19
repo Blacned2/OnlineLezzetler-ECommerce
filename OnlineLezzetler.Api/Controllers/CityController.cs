@@ -72,7 +72,7 @@ namespace OnlineLezzetler.Api.Controllers
             };
         }
 
-        [HttpDelete]
+        [HttpDelete, Route("{id}")]
         public ActionResult DeleteCity(int id)
         {
             var result = _cityService.DeleteCity(id);
@@ -86,7 +86,7 @@ namespace OnlineLezzetler.Api.Controllers
             };
         }
 
-        [HttpPut]
+        [HttpPut,Route("{id}")]
         public ActionResult EditCity(int id, CityDto city)
         {
             var result = _cityService.EditCity(id, city);

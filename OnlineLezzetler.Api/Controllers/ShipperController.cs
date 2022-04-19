@@ -59,7 +59,7 @@ namespace OnlineLezzetler.Api.Controllers
             };
         }
 
-        [HttpDelete]
+        [HttpDelete, Route("{id}")]
         public ActionResult DeleteShipper(int id)
         {
             var result = _shipperService.DeleteShipper(id);
@@ -73,7 +73,7 @@ namespace OnlineLezzetler.Api.Controllers
             };
         }
 
-        [HttpPut]
+        [HttpPut, Route("{id}")]
         public ActionResult EditShipper(int id, ShipperDto supplier)
         {
             var result = _shipperService.EditShipper(id, supplier);

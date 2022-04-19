@@ -74,7 +74,7 @@ namespace OnlineLezzetler.Api.Controllers
             }
         }
 
-        [HttpDelete]
+        [HttpDelete, Route("{id}")]
         public ActionResult DeleteRegion(int id)
         {
             var result = _regionService.DeleteRegion(id);

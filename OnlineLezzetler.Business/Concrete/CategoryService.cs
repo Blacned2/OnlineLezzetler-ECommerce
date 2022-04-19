@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using OnlineLezzetler.Business.Abstract;
 using OnlineLezzetler.Business.AutoMapper.Dtos;
+using OnlineLezzetler.Business.Helper;
 using OnlineLezzetler.Business.Models;
 using OnlineLezzetler.Data;
 using OnlineLezzetler.Data.Models;
@@ -31,7 +32,7 @@ namespace OnlineLezzetler.Business.Concrete
                 if (result != null && result.IsDeleted == true)
                 {
                     result.IsDeleted = false;
-                    result.Description = category.Description;
+                    result.Description = NullValidationHelper.StringNullValidation(category.Description, result.Description);
                     _context.Categories.Update(result);
                     _context.SaveChanges();
                     searchResult.ResultObject = _mapper.Map<CategoryDto>(result);
