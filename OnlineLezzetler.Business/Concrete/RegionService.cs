@@ -34,6 +34,7 @@ namespace OnlineLezzetler.Business.Concrete
                 {
                     searchResult.ResultMessage = String.Empty;
                     result.IsActive = true;
+                    result.CountryID = region.CountryID;
                     _context.Regions.Update(result);
                     _context.SaveChanges();
                     searchResult.ResultObject = region;
@@ -69,7 +70,9 @@ namespace OnlineLezzetler.Business.Concrete
 
             try
             {
-                var result = _context.Regions.Find(id);
+                var result = (from u in _context.Regions
+                              where u.RegionID == id
+                              select u).FirstOrDefault();
 
                 if(result != null)
                 {
@@ -101,7 +104,9 @@ namespace OnlineLezzetler.Business.Concrete
 
             try
             {
-                var result = _context.Regions.Find(id);
+                var result = (from u in _context.Regions
+                              where u.IsActive == true && u.RegionID == id
+                              select u).FirstOrDefault();
 
                 if (result != null)
                 {
@@ -161,7 +166,7 @@ namespace OnlineLezzetler.Business.Concrete
             try
             {
                 var results = (from u in _context.Regions
-                               where u.CountryID == id
+                               where u.CountryID == id && u.IsActive == true
                                select u).ToList();
 
                 if (results.Any())
