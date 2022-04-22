@@ -18,5 +18,6 @@ namespace OnlineLezzetler.Business.Abstract
         SearchResult<List<CityDto>> SearchCity(CitySearchRequest city);
         SearchResult<CityDto> AddCity(CityDto city);
         SearchResult<List<City>> GetCitiesWithRelations();
+        SearchResult<List<CityDto>> GetCitiesByRegionID(int id);
     }
 }

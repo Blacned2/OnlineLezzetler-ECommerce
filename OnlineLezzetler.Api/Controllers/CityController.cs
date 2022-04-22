@@ -31,6 +31,19 @@ namespace OnlineLezzetler.Api.Controllers
             };
         }
 
+        [HttpGet,Route("GetCityListByRegionID")]
+        public ActionResult<List<CityDto>> GetCityListByRegionID(int id)
+        {
+            var cities = _cityService.GetCitiesByRegionID(id);
+            return cities.ResultType switch
+            {
+                ResultType.Success => Ok(cities.ResultObject),
+                ResultType.Warning => NotFound(cities.ResultObject),
+                ResultType.Error => BadRequest(cities.ResultObject),
+                _ => BadRequest(cities.ResultObject)
+            };
+        }
+
         [HttpGet, Route("CityListsWithRelations")]
         public ActionResult<List<City>> GetCityListWithRelations()
         {

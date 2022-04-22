@@ -11,6 +11,7 @@ namespace OnlineLezzetler.Business.Models
 #nullable enable
         public string? RegionName { get; set; }
         public string? CountryName { get; set; }
+        public int? CountryID { get; set; }
 #nullable disable
     }
 }

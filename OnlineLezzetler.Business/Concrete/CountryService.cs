@@ -32,6 +32,7 @@ namespace OnlineLezzetler.Business.Concrete
 
                 if(result == null)
                 {
+                    country.CountryShortName = country.CountryName.ToUpper();
                     result = _mapper.Map<Country>(country);
                     _context.Countries.Add(result);
                     _context.SaveChanges();

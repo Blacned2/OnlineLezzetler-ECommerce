@@ -44,6 +44,20 @@ namespace OnlineLezzetler.Api.Controllers
             }
         }
 
+        [HttpGet,Route("GetByCountryID")]
+        public ActionResult<List<RegionDto>> RegionListByCountryID(int id)
+        {
+            var result = _regionService.GetRegionsByCountryID(id);
+
+            return result.ResultType switch
+            {
+                ResultType.Success => Ok(result.ResultObject),
+                ResultType.Warning => NotFound(result.ResultObject),
+                ResultType.Error => BadRequest(result.ResultObject),
+                _ => BadRequest(result.ResultObject)
+            };
+        }
+
         [HttpGet, Route("{id}")]
         public ActionResult GetSingleRegion(int id)
         {

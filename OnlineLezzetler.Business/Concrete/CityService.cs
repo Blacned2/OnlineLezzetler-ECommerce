@@ -166,6 +166,36 @@ namespace OnlineLezzetler.Business.Concrete
             return searchResult;
         }
 
+        public SearchResult<List<CityDto>> GetCitiesByRegionID(int id)
+        {
+            SearchResult<List<CityDto>> searchResult = new();
+
+            try
+            {
+                var results = (from u in _context.Cities
+                               where u.RegionID == id
+                               select u).ToList();
+
+                if (results.Any())
+                {
+                    searchResult.ResultMessage = string.Empty;
+                    searchResult.ResultObject = _mapper.Map<List<CityDto>>(results);
+                    searchResult.ResultType = ResultType.Success;
+                }
+                else
+                {
+                    searchResult.ResultMessage = "Not Found !";
+                    searchResult.ResultType = ResultType.Warning;
+                }
+            }
+            catch (Exception ex)
+            {
+                searchResult.ResultMessage = ex.Message;
+                searchResult.ResultType= ResultType.Error;
+            }
+            return searchResult; 
+        }
+
         public SearchResult<List<City>> GetCitiesWithRelations()
         {
             SearchResult<List<City>> searchResult = new();

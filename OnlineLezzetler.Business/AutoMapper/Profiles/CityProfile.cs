@@ -17,13 +17,13 @@ namespace OnlineLezzetler.Business.AutoMapper.Profiles
                 .ForMember(dest => dest.CityID, act => act.MapFrom(src => src.CityID))
                 .ForMember(dest => dest.CityName, act => act.MapFrom(src => src.CityName))
                 .ForMember(dest => dest.PostalCode, act => act.MapFrom(src => src.PostalCode))
-                .ForMember(dest => dest.RegionID, act => act.MapFrom(src => src.RegionID));
+                .ForMember(dest => dest.RegionName, act => act.MapFrom(src => src.Region.RegionDescription));
 
             CreateMap<CityDto, City>()
                 .ForMember(dest => dest.CityID, act => act.MapFrom(src => src.CityID))
+                .ForMember(dest => dest.RegionID, act => act.MapFrom(src => src.RegionID))
                 .ForMember(dest => dest.CityName, act => act.MapFrom(src => src.CityName))
-                .ForMember(dest => dest.PostalCode, act => act.MapFrom(src => src.PostalCode))
-                .ForMember(dest => dest.RegionID, act => act.MapFrom(src => src.RegionID));
+                .ForMember(dest => dest.PostalCode, act => act.MapFrom(src => src.PostalCode));
         }
     }
 }

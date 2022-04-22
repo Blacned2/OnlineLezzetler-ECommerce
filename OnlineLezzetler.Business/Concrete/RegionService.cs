@@ -154,6 +154,36 @@ namespace OnlineLezzetler.Business.Concrete
             return searchResult;
         }
 
+        public SearchResult<List<RegionDto>> GetRegionsByCountryID(int id)
+        {
+            SearchResult<List<RegionDto>> searchResult = new();
+
+            try
+            {
+                var results = (from u in _context.Regions
+                               where u.CountryID == id
+                               select u).ToList();
+
+                if (results.Any())
+                {
+                    searchResult.ResultMessage = String.Empty;
+                    searchResult.ResultObject = _mapper.Map<List<RegionDto>>(results);
+                    searchResult.ResultType = ResultType.Success;
+                }
+                else
+                {
+                    searchResult.ResultMessage = "Not Found !";
+                    searchResult.ResultType = ResultType.Warning;
+                }
+            }
+            catch (Exception ex)
+            {
+                searchResult.ResultMessage = ex.Message;
+                searchResult.ResultType = ResultType.Error;
+            }
+            return searchResult;
+        }
+
         public SearchResult<List<Region>> GetRegionsWithCountries()
         {
             SearchResult<List<Region>> searchResult = new();
@@ -192,7 +222,8 @@ namespace OnlineLezzetler.Business.Concrete
             try
             {
                 var results = (from u in _context.Regions
-                               where u.IsActive == true && u.Country.CountryName.Contains(request.CountryName)
+                               where u.IsActive == true && (request.CountryID == null || u.CountryID == request.CountryID)
+                               && (string.IsNullOrEmpty(request.CountryName) || u.Country.CountryName.Contains(request.CountryName))
                                && (string.IsNullOrEmpty(request.RegionName) || u.RegionDescription.Contains(request.RegionName))
                                select u).ToList(); 
                                
