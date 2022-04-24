@@ -23,6 +23,7 @@ namespace OnlineLezzetler.Business.AutoMapper.Profiles
                 .ForMember(dest => dest.RequiredDate, act => act.MapFrom(src => src.RequiredDate))
                 .ForMember(dest => dest.ShippedTime, act => act.MapFrom(src => src.ShippedDate))
                 .ForMember(dest => dest.IsCancelled, act => act.MapFrom(src => src.IsCancelled))
+                .ForMember(dest => dest.IsDelivered, act => act.MapFrom(src => src.IsDelivered))
                 .ForMember(dest => dest.DeliveredDate, act => act.MapFrom(src => src.DeliveredDate));
 
             CreateMap<OrderDto, Order>()
@@ -35,6 +36,7 @@ namespace OnlineLezzetler.Business.AutoMapper.Profiles
                 .ForMember(dest => dest.RequiredDate, act => act.MapFrom(src => src.RequiredDate))
                 .ForMember(dest => dest.ShippedDate, act => act.MapFrom(src => src.ShippedTime))
                 .ForMember(dest => dest.IsCancelled, act => act.MapFrom(src => src.IsCancelled))
+                .ForMember(dest => dest.IsDelivered, act => act.MapFrom(src => src.IsDelivered))
                 .ForMember(dest => dest.DeliveredDate, act => act.MapFrom(src => src.DeliveredDate));
         }
     }

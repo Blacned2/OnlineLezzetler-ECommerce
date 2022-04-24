@@ -25,7 +25,7 @@ namespace OnlineLezzetler.Data.Models
         public int? ShippedCityID{ get; set; }
         public DateTime OrderDate { get; set; }
         public DateTime? RequiredDate { get; set; }
-        public DateTime ShippedDate { get; set; }
+        public DateTime? ShippedDate { get; set; }
         public DateTime? DeliveredDate { get; set; } 
         public bool IsCancelled { get; set; } = false;
         public bool IsDelivered { get; set; } = false;

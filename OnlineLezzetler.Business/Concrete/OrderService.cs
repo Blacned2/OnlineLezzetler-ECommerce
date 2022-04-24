@@ -67,7 +67,7 @@ namespace OnlineLezzetler.Business.Concrete
             {
                 var result = _context.Orders.Find(id);
 
-                if (result != null && result.ShippedDate > DateTime.Now)
+                if (result != null && (result.ShippedDate == null || result.ShippedDate > DateTime.Now))
                 {
                     result.OrderDate = DateTime.Now;
                     result.OrderDetail.Quantity = NullValidationHelper.BindIfNotZero(details.Quantity, result.OrderDetail.Quantity);
@@ -230,13 +230,13 @@ namespace OnlineLezzetler.Business.Concrete
             return searchResult;
         }
 
-        public SearchResult<bool> NewOrder(Order order)
+        public SearchResult<bool> NewOrder(OrderDto order)
         {
             SearchResult<bool> searchResult = new();
 
             try
             {
-                _context.Orders.Add(order);
+                _context.Orders.Add(_mapper.Map<Order>(order));
                 _context.SaveChanges();
 
                 searchResult.ResultMessage = string.Empty;

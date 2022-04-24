@@ -33,7 +33,7 @@ namespace OnlineLezzetler.Api.Controllers
         }
 
         [HttpGet, Route("CustomerOrder")]
-        public ActionResult<OrderDto> GetCustomerOrder(int customerID, int orderID) //Supplier Orders
+        public ActionResult<OrderDto> GetCustomerOrder(int customerID, int orderID) //Supplier Order
         {
             var result = _orderService.GetCustomerOrder(customerID, orderID);
 
@@ -47,7 +47,7 @@ namespace OnlineLezzetler.Api.Controllers
         }
 
         [HttpGet, Route("SupplierOrder")]
-        public ActionResult<OrderDto> GetSupplierOrder(int supplierID, int orderID) //Supplier Orders
+        public ActionResult<OrderDto> GetSupplierOrder(int supplierID, int orderID) //Supplier Order
         {
             var result = _orderService.GetSupplierOrder(supplierID, orderID);
 
@@ -74,11 +74,60 @@ namespace OnlineLezzetler.Api.Controllers
             };
         }
 
-        //[HttpPost]
-        //public ActionResult<OrderDto> NewOrder(OrderDto order)
-        //{
-        //    var result = _orderService.NewOrder(order);
+        [HttpPost]
+        public ActionResult<bool> NewOrder(OrderDto order) //New Order Request
+        {
+            var result = _orderService.NewOrder(order);
 
-        //}
+            return result.ResultType switch
+            {
+                ResultType.Success => Ok(result.ResultObject),
+                ResultType.Warning => NotFound(result.ResultObject),
+                ResultType.Error => BadRequest(result.ResultObject),
+                _ => BadRequest(result.ResultObject)
+            };
+        }
+
+        [HttpPut, Route("{id}")]
+        public ActionResult<bool> EditOrder(int id, OrderDto order, OrderDetailDto details) //Edit that order
+        {
+            var result = _orderService.EditOrder(id, order, details);
+
+            return result.ResultType switch
+            {
+                ResultType.Success => Ok(result.ResultObject),
+                ResultType.Warning => NotFound(result.ResultObject),
+                ResultType.Error => BadRequest(result.ResultObject),
+                _ => BadRequest(result.ResultObject)
+            };
+        }
+
+        [HttpDelete, Route("{id}")]
+        public ActionResult<bool> CancelOrder(int id) //Cancel that order if shipped time lower than now 
+        {
+            var result = _orderService.CancelOrder(id);
+
+            return result.ResultType switch
+            {
+                ResultType.Success => Ok(result.ResultObject),
+                ResultType.Warning => NotFound(result.ResultObject),
+                ResultType.Error => BadRequest(result.ResultObject),
+                _ => BadRequest(result.ResultObject)
+            };
+        }
+
+        [HttpPut]
+        public ActionResult<bool> OrderDelivered(int id)
+        {
+            var result = _orderService.OrderDelivered(id);
+
+            return result.ResultType switch
+            {
+                ResultType.Success => Ok(result.ResultObject),
+                ResultType.Warning => NotFound(result.ResultObject),
+                ResultType.Error => BadRequest(result.ResultObject),
+                _ => BadRequest(result.ResultObject)
+            };
+        }
     }
 }
