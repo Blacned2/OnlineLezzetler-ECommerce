@@ -11,8 +11,10 @@ namespace OnlineLezzetler.Business.Abstract
 {
     public interface IOrderService
     {
-        SearchResult<HashSet<OrderDto>> GetOrders();
-        SearchResult<OrderDto> GetOrder(int id);
+        SearchResult<HashSet<OrderDto>> GetCustomerOrders(int id); //Customer's orders
+        SearchResult<OrderDto> GetCustomerOrder(int customerID,int orderID); //Customer's single order
+        SearchResult<HashSet<OrderDto>> GetSupplierOrders(int supplierID); //Supplier's orders
+        SearchResult<OrderDto> GetSupplierOrder(int supplierID, int orderID); //Supplier's single order
         SearchResult<bool> NewOrder(Order order);
         SearchResult<bool> EditOrder(int id,OrderDto order,OrderDetailDto details);
         SearchResult<bool> CancelOrder(int id); 

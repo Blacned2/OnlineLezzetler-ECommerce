@@ -50,13 +50,13 @@ namespace OnlineLezzetler.Business.Concrete
             catch (Exception ex)
             {
                 searchResult.ResultMessage = ex.Message;
-                searchResult.ResultObject= false;
+                searchResult.ResultObject = false;
                 searchResult.ResultType = ResultType.Error;
             }
             return searchResult;
         }
 
-        public SearchResult<bool> EditOrder(int id, OrderDto order,OrderDetailDto details)
+        public SearchResult<bool> EditOrder(int id, OrderDto order, OrderDetailDto details)
         {
             SearchResult<bool> searchResult = new();
 
@@ -64,7 +64,7 @@ namespace OnlineLezzetler.Business.Concrete
             {
                 var result = _context.Orders.Find(id);
 
-                if(result != null && result.ShippedDate > DateTime.Now)
+                if (result != null && result.ShippedDate > DateTime.Now)
                 {
                     result.OrderDate = DateTime.Now;
                     result.OrderDetail.Quantity = NullValidationHelper.BindIfNotZero(details.Quantity, result.OrderDetail.Quantity);
@@ -82,20 +82,94 @@ namespace OnlineLezzetler.Business.Concrete
             }
             catch (Exception ex)
             {
-                searchResult.ResultMessage =ex.Message;
+                searchResult.ResultMessage = ex.Message;
                 searchResult.ResultType = ResultType.Error;
                 searchResult.ResultObject = false;
             }
             return searchResult;
         }
-         
-        public SearchResult<OrderDto> GetOrder(int id)
+
+        public SearchResult<OrderDto> GetCustomerOrder(int customerID, int orderID)
         {
             SearchResult<OrderDto> searchResult = new();
 
             try
             {
-                var result = _context.Orders.Find(id);
+                var result = (from u in _context.Orders
+                              where u.CustomerID == customerID
+                              && u.OrderID == orderID
+                              select u).FirstOrDefault();
+
+                if (result != null)
+                {
+                    searchResult.ResultMessage = string.Empty;
+                    searchResult.ResultObject = _mapper.Map<OrderDto>(result);
+                    searchResult.ResultType = ResultType.Success;
+                }
+                else
+                {
+                    searchResult.ResultMessage = "Not found !";
+                    searchResult.ResultType = ResultType.Warning;
+                }
+            }
+            catch (Exception ex)
+            {
+                searchResult.ResultMessage = ex.Message;
+                searchResult.ResultType = ResultType.Error;
+            }
+            return searchResult;
+        }
+
+        public SearchResult<HashSet<OrderDto>> GetCustomerOrders(int id)
+        {
+            SearchResult<HashSet<OrderDto>> searchResult = new();
+
+            try
+            {
+                var results = (from u in _context.Orders
+                               where u.IsCancelled == false && u.CustomerID == id
+                               select u).ToHashSet();
+
+                if (results.Any())
+                {
+                    searchResult.ResultMessage = string.Empty;
+                    searchResult.ResultObject = _mapper.Map<HashSet<OrderDto>>(results);
+                    searchResult.ResultType = ResultType.Success;
+                }
+                else
+                {
+                    searchResult.ResultMessage = "Not found !";
+                    searchResult.ResultType = ResultType.Warning;
+                }
+            }
+            catch (Exception ex)
+            {
+                searchResult.ResultMessage = ex.Message;
+                searchResult.ResultType = ResultType.Error;
+            }
+            return searchResult;
+        }
+
+        public SearchResult<OrderDto> GetSupplierOrder(int supplierID, int orderID)
+        {
+            SearchResult<OrderDto> searchResult = new();
+
+            try
+            {
+                var result = (from order in _context.Orders
+                              join detail in _context.OrderDetails
+                              on
+                              order.DetailID equals detail.DetailID
+                              join
+                              product in _context.Products 
+                              on
+                              detail.ProductID equals product.ProductID
+                              join
+                              supplier in _context.Suppliers
+                              on
+                              product.SupplierID equals supplier.SupplierID
+                              where supplier.SupplierID == supplierID && order.OrderID == orderID
+                              select order).FirstOrDefault();
 
                 if(result != null)
                 {
@@ -117,15 +191,21 @@ namespace OnlineLezzetler.Business.Concrete
             return searchResult;
         }
 
-        public SearchResult<HashSet<OrderDto>> GetOrders()
+        public SearchResult<HashSet<OrderDto>> GetSupplierOrders(int supplierID)
         {
             SearchResult<HashSet<OrderDto>> searchResult = new();
 
             try
             {
-                var results = (from u in _context.Orders
-                               where u.IsCancelled == false
-                               select u).ToHashSet();
+                var results = (from order in _context.Orders
+                               join detail in _context.OrderDetails
+                               on order.DetailID equals detail.DetailID
+                               join product in _context.Products
+                               on detail.ProductID equals product.ProductID
+                               join supplier in _context.Suppliers
+                               on product.SupplierID equals supplier.SupplierID
+                               where supplier.SupplierID == supplierID
+                               select order).ToHashSet();
 
                 if (results.Any())
                 {
@@ -156,7 +236,7 @@ namespace OnlineLezzetler.Business.Concrete
                 order.OrderDetail.OrderPrice = order.OrderDetail.Product.UnitPrice;
                 _context.Orders.Add(order);
                 _context.SaveChanges();
-                
+
                 searchResult.ResultMessage = string.Empty;
                 searchResult.ResultObject = true;
                 searchResult.ResultType = ResultType.Success;
