@@ -14,7 +14,7 @@ namespace OnlineLezzetler.Business.AutoMapper.Profiles
         public OrderProfile()
         {
             CreateMap<Order, OrderDto>()
-                .ForMember(dest => dest.OrderID, act => act.MapFrom(src => src.OrderID)) 
+                .ForMember(dest => dest.OrderID, act => act.MapFrom(src => src.OrderID))
                 .ForMember(dest => dest.CustomerID, act => act.MapFrom(src => src.CustomerID))
                 .ForMember(dest => dest.ShipperID, act => act.MapFrom(src => src.ShipperID))
                 .ForMember(dest => dest.DetailID, act => act.MapFrom(src => src.DetailID))
@@ -22,7 +22,8 @@ namespace OnlineLezzetler.Business.AutoMapper.Profiles
                 .ForMember(dest => dest.OrderDate, act => act.MapFrom(src => src.OrderDate))
                 .ForMember(dest => dest.RequiredDate, act => act.MapFrom(src => src.RequiredDate))
                 .ForMember(dest => dest.ShippedTime, act => act.MapFrom(src => src.ShippedDate))
-                .ForMember(dest => dest.Freight, act => act.MapFrom(src => src.Freight));
+                .ForMember(dest => dest.IsCancelled, act => act.MapFrom(src => src.IsCancelled))
+                .ForMember(dest => dest.DeliveredDate, act => act.MapFrom(src => src.DeliveredDate));
 
             CreateMap<OrderDto, Order>()
                 .ForMember(dest => dest.OrderID, act => act.MapFrom(src => src.OrderID)) 
@@ -33,7 +34,8 @@ namespace OnlineLezzetler.Business.AutoMapper.Profiles
                 .ForMember(dest => dest.OrderDate, act => act.MapFrom(src => src.OrderDate))
                 .ForMember(dest => dest.RequiredDate, act => act.MapFrom(src => src.RequiredDate))
                 .ForMember(dest => dest.ShippedDate, act => act.MapFrom(src => src.ShippedTime))
-                .ForMember(dest => dest.Freight, act => act.MapFrom(src => src.Freight));
+                .ForMember(dest => dest.IsCancelled, act => act.MapFrom(src => src.IsCancelled))
+                .ForMember(dest => dest.DeliveredDate, act => act.MapFrom(src => src.DeliveredDate));
         }
     }
 }

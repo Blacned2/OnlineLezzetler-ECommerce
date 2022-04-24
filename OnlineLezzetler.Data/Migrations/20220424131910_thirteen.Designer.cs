@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using OnlineLezzetler.Data;
 
 namespace OnlineLezzetler.Data.Migrations
 {
     [DbContext(typeof(OnlineLezzetlerContext))]
-    partial class OnlineLezzetlerContextModelSnapshot : ModelSnapshot
+    [Migration("20220424131910_thirteen")]
+    partial class thirteen
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -193,11 +195,11 @@ namespace OnlineLezzetler.Data.Migrations
                     b.Property<int?>("CustomerID")
                         .HasColumnType("int");
 
-                    b.Property<DateTime?>("DeliveredDate")
-                        .HasColumnType("datetime2");
-
                     b.Property<int>("DetailID")
                         .HasColumnType("int");
+
+                    b.Property<float>("Freight")
+                        .HasColumnType("real");
 
                     b.Property<Guid>("GUID")
                         .ValueGeneratedOnAdd()
@@ -206,16 +208,13 @@ namespace OnlineLezzetler.Data.Migrations
                     b.Property<bool>("IsCancelled")
                         .HasColumnType("bit");
 
-                    b.Property<bool>("IsDelivered")
-                        .HasColumnType("bit");
-
                     b.Property<DateTime>("OrderDate")
                         .HasColumnType("datetime2");
 
                     b.Property<int?>("OrderDetailDetailID")
                         .HasColumnType("int");
 
-                    b.Property<DateTime?>("RequiredDate")
+                    b.Property<DateTime>("RequiredDate")
                         .HasColumnType("datetime2");
 
                     b.Property<int?>("ShippedCityID")

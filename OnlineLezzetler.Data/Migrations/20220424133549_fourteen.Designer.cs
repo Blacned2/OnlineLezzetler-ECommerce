@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using OnlineLezzetler.Data;
 
 namespace OnlineLezzetler.Data.Migrations
 {
     [DbContext(typeof(OnlineLezzetlerContext))]
-    partial class OnlineLezzetlerContextModelSnapshot : ModelSnapshot
+    [Migration("20220424133549_fourteen")]
+    partial class fourteen
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -204,9 +206,6 @@ namespace OnlineLezzetler.Data.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<bool>("IsCancelled")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("IsDelivered")
                         .HasColumnType("bit");
 
                     b.Property<DateTime>("OrderDate")

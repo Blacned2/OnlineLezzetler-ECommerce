@@ -16,6 +16,8 @@ namespace OnlineLezzetler.Business.AutoMapper.Dtos
         public DateTime OrderDate { get; set; }
         public DateTime RequiredDate { get; set; }
         public DateTime ShippedTime { get; set; }
-        public float Freight { get; set; }
+        public DateTime? DeliveredDate { get; set; }
+        public bool? IsCancelled { get; set; } = false;
+        public bool IsDelivered { get; set; } = false;
     }
 }

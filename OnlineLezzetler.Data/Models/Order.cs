@@ -24,10 +24,11 @@ namespace OnlineLezzetler.Data.Models
         [ForeignKey("CityID")]
         public int? ShippedCityID{ get; set; }
         public DateTime OrderDate { get; set; }
-        public DateTime RequiredDate { get; set; }
+        public DateTime? RequiredDate { get; set; }
         public DateTime ShippedDate { get; set; }
-        public float Freight { get; set; } 
+        public DateTime? DeliveredDate { get; set; } 
         public bool IsCancelled { get; set; } = false;
+        public bool IsDelivered { get; set; } = false;
 
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public Guid GUID { get; set; } 
@@ -39,6 +40,7 @@ namespace OnlineLezzetler.Data.Models
         public Order()
         {
             OrderDate = DateTime.Now;
+            RequiredDate = DateTime.Now.AddMinutes(45); //Maximum 45 min to deliver
             GUID = Guid.NewGuid();
         }
     }

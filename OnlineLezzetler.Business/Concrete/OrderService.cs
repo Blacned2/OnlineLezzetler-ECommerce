@@ -31,7 +31,10 @@ namespace OnlineLezzetler.Business.Concrete
 
                 if (result != null)
                 {
-                    result.IsCancelled = true;
+                    if(result.ShippedDate > DateTime.Now)
+                    {
+                        result.IsCancelled = true;
+                    }
                     _context.Orders.Update(result);
                     _context.SaveChanges();
 
@@ -233,13 +236,49 @@ namespace OnlineLezzetler.Business.Concrete
 
             try
             {
-                order.OrderDetail.OrderPrice = order.OrderDetail.Product.UnitPrice;
                 _context.Orders.Add(order);
                 _context.SaveChanges();
 
                 searchResult.ResultMessage = string.Empty;
                 searchResult.ResultObject = true;
                 searchResult.ResultType = ResultType.Success;
+            }
+            catch (Exception ex)
+            {
+                searchResult.ResultMessage = ex.Message;
+                searchResult.ResultObject = false;
+                searchResult.ResultType = ResultType.Error;
+            }
+            return searchResult;
+        }
+
+        public SearchResult<bool> OrderDelivered(int id)
+        {
+            SearchResult<bool> searchResult = new();
+
+            try
+            {
+                var result = (from u in _context.Orders
+                              where u.OrderID == id && u.IsCancelled == false
+                              && u.IsDelivered == false
+                              select u).FirstOrDefault();
+
+                if(result != null)
+                {
+                    result.IsDelivered = true;
+                    _context.Orders.Update(result);
+                    _context.SaveChanges();
+
+                    searchResult.ResultMessage = string.Empty;
+                    searchResult.ResultObject = true;
+                    searchResult.ResultType = ResultType.Success;
+                }
+                else
+                {
+                    searchResult.ResultMessage = "Not found!";
+                    searchResult.ResultObject = false;
+                    searchResult.ResultType = ResultType.Warning;
+                }
             }
             catch (Exception ex)
             {

@@ -73,5 +73,12 @@ namespace OnlineLezzetler.Api.Controllers
                 _ => BadRequest(result.ResultObject)
             };
         }
+
+        //[HttpPost]
+        //public ActionResult<OrderDto> NewOrder(OrderDto order)
+        //{
+        //    var result = _orderService.NewOrder(order);
+
+        //}
     }
 }
