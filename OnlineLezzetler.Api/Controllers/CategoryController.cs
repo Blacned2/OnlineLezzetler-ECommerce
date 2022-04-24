@@ -20,14 +20,14 @@ namespace OnlineLezzetler.Api.Controllers
         public ActionResult<List<CategoryDto>> CategoryList()
         {
             var categories = _categoryService.GetCategories();
-            if(categories.ResultType == ResultType.Success)
+
+            return categories.ResultType switch
             {
-                return Ok(categories.ResultObject);
-            }
-            else
-            {
-                return NotFound(categories.ResultObject);
-            }
+                ResultType.Success => Ok(categories.ResultObject),
+                ResultType.Warning => NotFound(categories.ResultObject),
+                ResultType.Error => BadRequest(categories.ResultObject),
+                _ => BadRequest(categories.ResultObject),
+            };
         }
 
         [HttpGet, Route("{id}")]
@@ -35,14 +35,13 @@ namespace OnlineLezzetler.Api.Controllers
         {
             var result = _categoryService.GetSingleCategory(id);
 
-            if (result.ResultType == ResultType.Success)
+            return result.ResultType switch
             {
-                return Ok(result.ResultObject);
-            }
-            else
-            {
-                return NotFound(result.ResultObject);
-            }
+                ResultType.Success => Ok(result.ResultObject),
+                ResultType.Warning => NotFound(result.ResultObject),
+                ResultType.Error => BadRequest(result.ResultObject),
+                _ => BadRequest(result.ResultObject),
+            };
         }
 
         [HttpPost]
@@ -50,14 +49,13 @@ namespace OnlineLezzetler.Api.Controllers
         {
             var result = _categoryService.AddCategory(category);
 
-            if(result.ResultType == ResultType.Success)
+            return result.ResultType switch
             {
-                return Ok(result.ResultObject);
-            }
-            else
-            {
-                return BadRequest(result.ResultObject);
-            }
+                ResultType.Success => Ok(result.ResultObject),
+                ResultType.Warning => NotFound(result.ResultObject),
+                ResultType.Error => BadRequest(result.ResultObject),
+                _ => BadRequest(result.ResultObject),
+            };
         }
 
         [HttpDelete,Route("{id}")]
@@ -65,14 +63,13 @@ namespace OnlineLezzetler.Api.Controllers
         {
             var result = _categoryService.DeleteCategory(id);
 
-            if(result.ResultType == ResultType.Success)
+            return result.ResultType switch
             {
-                return Ok();
-            }
-            else
-            {
-                return BadRequest();
-            }
+                ResultType.Success => Ok(result.ResultObject),
+                ResultType.Warning => NotFound(result.ResultObject),
+                ResultType.Error => BadRequest(result.ResultObject),
+                _ => BadRequest(result.ResultObject),
+            };
         }
 
         [HttpPut,Route("{id}")]
@@ -80,14 +77,13 @@ namespace OnlineLezzetler.Api.Controllers
         {
             var result = _categoryService.EditCategory(id,category);
 
-            if(result.ResultType == ResultType.Success)
+            return result.ResultType switch
             {
-                return Ok(result.ResultObject);
-            }
-            else
-            {
-                return BadRequest(result.ResultObject);
-            }
+                ResultType.Success => Ok(result.ResultObject),
+                ResultType.Warning => NotFound(result.ResultObject),
+                ResultType.Error => BadRequest(result.ResultObject),
+                _ => BadRequest(result.ResultObject),
+            };
         }
 
         [HttpPost,Route("Search")]
@@ -95,14 +91,13 @@ namespace OnlineLezzetler.Api.Controllers
         {
             var results = _categoryService.SearchCategories(search);
 
-            if(results.ResultType == ResultType.Success)
+            return results.ResultType switch
             {
-                return Ok(results.ResultObject);
-            }
-            else
-            {
-                return NotFound(results.ResultObject);
-            }
+                ResultType.Success => Ok(results.ResultObject),
+                ResultType.Warning => NotFound(results.ResultObject),
+                ResultType.Error => BadRequest(results.ResultObject),
+                _ => BadRequest(results.ResultObject),
+            };
         }
     }
 }

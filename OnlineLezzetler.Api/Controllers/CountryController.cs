@@ -21,14 +21,14 @@ namespace OnlineLezzetler.Api.Controllers
         public ActionResult<List<CountryDto>> CountryList()
         {
             var countries = _countryService.GetCountries();
-            if (countries.ResultType == ResultType.Success)
+
+            return countries.ResultType switch
             {
-                return Ok(countries.ResultObject);
-            }
-            else
-            {
-                return NotFound(countries.ResultObject);
-            }
+                ResultType.Success => Ok(countries.ResultObject),
+                ResultType.Warning => NotFound(countries.ResultObject),
+                ResultType.Error => BadRequest(countries.ResultObject),
+                _ => BadRequest(countries.ResultObject),
+            };
         }
 
         [HttpGet, Route("{id}")]
@@ -36,14 +36,13 @@ namespace OnlineLezzetler.Api.Controllers
         {
             var result = _countryService.GetCountry(id);
 
-            if (result.ResultType == ResultType.Success)
+            return result.ResultType switch
             {
-                return Ok(result.ResultObject);
-            }
-            else
-            {
-                return NotFound(result.ResultObject);
-            }
+                ResultType.Success => Ok(result.ResultObject),
+                ResultType.Warning => NotFound(result.ResultObject),
+                ResultType.Error => BadRequest(result.ResultObject),
+                _ => BadRequest(result.ResultObject),
+            };
         }
 
         [HttpPost]
@@ -51,14 +50,13 @@ namespace OnlineLezzetler.Api.Controllers
         {
             var result = _countryService.AddCountry(Country);
 
-            if (result.ResultType == ResultType.Success)
+            return result.ResultType switch
             {
-                return Ok(result.ResultObject);
-            }
-            else
-            {
-                return BadRequest(result.ResultObject);
-            }
+                ResultType.Success => Ok(result.ResultObject),
+                ResultType.Warning => NotFound(result.ResultObject),
+                ResultType.Error => BadRequest(result.ResultObject),
+                _ => BadRequest(result.ResultObject),
+            };
         }
 
         [HttpDelete, Route("{id}")]
@@ -66,14 +64,13 @@ namespace OnlineLezzetler.Api.Controllers
         {
             var result = _countryService.DeleteCountry(id);
 
-            if (result.ResultType == ResultType.Success)
+            return result.ResultType switch
             {
-                return Ok();
-            }
-            else
-            {
-                return BadRequest();
-            }
+                ResultType.Success => Ok(result.ResultObject),
+                ResultType.Warning => NotFound(result.ResultObject),
+                ResultType.Error => BadRequest(result.ResultObject),
+                _ => BadRequest(result.ResultObject),
+            };
         }
 
         [HttpPut,Route("{id}")]
@@ -81,14 +78,13 @@ namespace OnlineLezzetler.Api.Controllers
         {
             var result = _countryService.EditCountry(id, country);
 
-            if (result.ResultType == ResultType.Success)
+            return result.ResultType switch
             {
-                return Ok(result.ResultObject);
-            }
-            else
-            {
-                return BadRequest(result.ResultObject);
-            }
+                ResultType.Success => Ok(result.ResultObject),
+                ResultType.Warning => NotFound(result.ResultObject),
+                ResultType.Error => BadRequest(result.ResultObject),
+                _ => BadRequest(result.ResultObject),
+            };
         }
 
         [HttpPost, Route("Search")]
@@ -96,14 +92,13 @@ namespace OnlineLezzetler.Api.Controllers
         {
             var results = _countryService.SearchCountry(search);
 
-            if (results.ResultType == ResultType.Success)
+            return results.ResultType switch
             {
-                return Ok(results.ResultObject);
-            }
-            else
-            {
-                return NotFound(results.ResultObject);
-            }
+                ResultType.Success => Ok(results.ResultObject),
+                ResultType.Warning => NotFound(results.ResultObject),
+                ResultType.Error => BadRequest(results.ResultObject),
+                _ => BadRequest(results.ResultObject),
+            };
         }
     }
 }
