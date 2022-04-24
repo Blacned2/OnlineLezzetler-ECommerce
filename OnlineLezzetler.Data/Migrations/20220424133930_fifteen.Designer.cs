@@ -11,7 +11,7 @@ namespace OnlineLezzetler.Data.Migrations
 {
     [DbContext(typeof(OnlineLezzetlerContext))]
     [Migration("20220424133930_fifteen")]
-    partial class fifteen
+    partial class Fifteen
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

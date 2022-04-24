@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace OnlineLezzetler.Data.Migrations
 {
-    public partial class fourteen : Migration
+    public partial class Fourteen : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

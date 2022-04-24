@@ -2,7 +2,7 @@
 
 namespace OnlineLezzetler.Data.Migrations
 {
-    public partial class thirteen : Migration
+    public partial class Thirteen : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
