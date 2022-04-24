@@ -11,6 +11,7 @@ namespace OnlineLezzetler.Business.Abstract
     public interface ISupplierService
     {
         SearchResult<HashSet<SupplierDto>> GetSuppliers();
+        SearchResult<HashSet<SupplierDto>> GetSuppliersByCityID(int id);
         SearchResult<SupplierDto> GetSupplier(int id);
         SearchResult<SupplierDto> EditSupplier(int id,SupplierDto request);
         SearchResult<bool> AddSupplier(SupplierDto request);

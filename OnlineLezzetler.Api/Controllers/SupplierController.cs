@@ -18,9 +18,22 @@ namespace OnlineLezzetler.Api.Controllers
         }
 
         [HttpGet]
-        public ActionResult<List<SupplierDto>> SupplierList()
+        public ActionResult<HashSet<SupplierDto>> SupplierList()
         {
             var result = _supplierService.GetSuppliers();
+            return result.ResultType switch
+            {
+                ResultType.Success => Ok(result.ResultObject),
+                ResultType.Warning => NotFound(result.ResultObject),
+                ResultType.Error => BadRequest(result.ResultObject),
+                _ => BadRequest(result.ResultObject)
+            };
+        }
+
+        [HttpGet,Route("ByCityID")]
+        public ActionResult<HashSet<SupplierDto>> SupplierListByCityID(int id)
+        {
+            var result = _supplierService.GetSuppliersByCityID(id);
             return result.ResultType switch
             {
                 ResultType.Success => Ok(result.ResultObject),

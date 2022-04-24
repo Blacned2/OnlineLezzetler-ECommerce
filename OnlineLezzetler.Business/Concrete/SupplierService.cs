@@ -205,6 +205,36 @@ namespace OnlineLezzetler.Business.Concrete
             return searchResult;
         }
 
+        public SearchResult<HashSet<SupplierDto>> GetSuppliersByCityID(int id)
+        {
+            SearchResult<HashSet<SupplierDto>> searchResult = new();
+
+            try
+            {
+                var results = (from u in _context.Suppliers
+                               where u.IsActive == true && u.CityID == id
+                               select u).ToHashSet();
+
+                if (results.Any())
+                {
+                    searchResult.ResultMessage = string.Empty;
+                    searchResult.ResultObject = _mapper.Map<HashSet<SupplierDto>>(results);
+                    searchResult.ResultType = ResultType.Success;
+                }
+                else
+                {
+                    searchResult.ResultMessage = "Not found !";
+                    searchResult.ResultType = ResultType.Warning;
+                }
+            }
+            catch (Exception ex)
+            {
+                searchResult.ResultMessage = ex.Message;
+                searchResult.ResultType = ResultType.Error;
+            }
+            return searchResult;
+        }
+
         public SearchResult<List<SupplierDto>> SearchSupplier(SupplierSearchRequest request)
         {
             SearchResult<List<SupplierDto>> searchResult = new();
