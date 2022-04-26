@@ -42,7 +42,7 @@ namespace OnlineLezzetler.Api.Controllers
                 ResultType.Error => BadRequest(result.ResultObject),
                 _ => BadRequest(result.ResultObject)
             };
-        }
+        } 
 
         [HttpPost]
         public ActionResult AddEmployee(EmployeeDto employee)

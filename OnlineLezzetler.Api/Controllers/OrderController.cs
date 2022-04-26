@@ -86,21 +86,7 @@ namespace OnlineLezzetler.Api.Controllers
                 ResultType.Error => BadRequest(result.ResultObject),
                 _ => BadRequest(result.ResultObject)
             };
-        }
-
-        [HttpPut, Route("{id}")]
-        public ActionResult<bool> EditOrder(int id, OrderDto order, OrderDetailDto details) //Edit that order
-        {
-            var result = _orderService.EditOrder(id, order, details);
-
-            return result.ResultType switch
-            {
-                ResultType.Success => Ok(result.ResultObject),
-                ResultType.Warning => NotFound(result.ResultObject),
-                ResultType.Error => BadRequest(result.ResultObject),
-                _ => BadRequest(result.ResultObject)
-            };
-        }
+        }  
 
         [HttpDelete, Route("{id}")]
         public ActionResult<bool> CancelOrder(int id) //Cancel that order if shipped time lower than now 
@@ -116,7 +102,7 @@ namespace OnlineLezzetler.Api.Controllers
             };
         }
 
-        [HttpPut]
+        [HttpPut,Route("Delivered/{id}")]
         public ActionResult<bool> OrderDelivered(int id)
         {
             var result = _orderService.OrderDelivered(id);

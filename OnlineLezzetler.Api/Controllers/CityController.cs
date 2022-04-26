@@ -42,20 +42,7 @@ namespace OnlineLezzetler.Api.Controllers
                 ResultType.Error => BadRequest(cities.ResultObject),
                 _ => BadRequest(cities.ResultObject)
             };
-        }
-
-        [HttpGet, Route("CityListsWithRelations")]
-        public ActionResult<List<City>> GetCityListWithRelations()
-        {
-            var cities = _cityService.GetCitiesWithRelations();
-            return cities.ResultType switch
-            {
-                ResultType.Success => Ok(cities.ResultObject),
-                ResultType.Warning => NotFound(cities.ResultObject),
-                ResultType.Error => BadRequest(cities.ResultObject),
-                _ => BadRequest(cities.ResultObject)
-            };
-        }
+        } 
 
         [HttpGet, Route("{id}")]
         public ActionResult GetCity(int id)

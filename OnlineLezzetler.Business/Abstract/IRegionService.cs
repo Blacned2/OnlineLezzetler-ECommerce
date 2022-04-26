@@ -16,8 +16,7 @@ namespace OnlineLezzetler.Business.Abstract
         SearchResult<RegionDto> GetRegion(int id);
 
         SearchResult<List<RegionDto>> GetRegionsByCountryID(int id); 
-        SearchResult<RegionDto> AddRegion(RegionDto region);
-        SearchResult<List<Region>> GetRegionsWithCountries();
+        SearchResult<RegionDto> AddRegion(RegionDto region); 
         SearchResult<bool> DeleteRegion(int id);
         SearchResult<List<RegionDto>> SearchRegion(RegionSearchRequest request);
     }

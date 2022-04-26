@@ -7,7 +7,8 @@ using OnlineLezzetler.Data;
 using OnlineLezzetler.Data.Models;
 using System;
 using System.Collections.Generic;
-using System.Linq; 
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace OnlineLezzetler.Business.Concrete
 {
@@ -50,6 +51,7 @@ namespace OnlineLezzetler.Business.Concrete
                 {
                     _context.Categories.Add(_mapper.Map<Category>(category));
                     _context.SaveChanges();
+
                     searchResult.ResultObject = category;
                     searchResult.ResultMessage = String.Empty;
                     searchResult.ResultType = ResultType.Success;
@@ -104,11 +106,11 @@ namespace OnlineLezzetler.Business.Concrete
 
                 if (result != null)
                 {
-                    if(category.CategoryName != null)
+                    if (category.CategoryName != null)
                     {
                         result.CategoryName = category.CategoryName;
                     }
-                    if(category.Description != null)
+                    if (category.Description != null)
                     {
                         result.Description = category.Description;
                     }
@@ -175,9 +177,9 @@ namespace OnlineLezzetler.Business.Concrete
                               where u.CategoryID == id && u.IsDeleted == false
                               select u).FirstOrDefault();
 
-                if(result != null)
+                if (result != null)
                 {
-                    searchResult.ResultObject= _mapper.Map<CategoryDto>(result);
+                    searchResult.ResultObject = _mapper.Map<CategoryDto>(result);
                     searchResult.ResultMessage = String.Empty;
                     searchResult.ResultType = ResultType.Success;
                 }
@@ -207,7 +209,7 @@ namespace OnlineLezzetler.Business.Concrete
                                (request.Description == null || u.Description.Contains(request.Description) &&
                                request.CategoryName == null || u.CategoryName.Contains(request.CategoryName))
                                select u).ToList();
-                if(results.Any())
+                if (results.Any())
                 {
                     searchResult.ResultObject = _mapper.Map<List<CategoryDto>>(results);
                     searchResult.ResultMessage = string.Empty;

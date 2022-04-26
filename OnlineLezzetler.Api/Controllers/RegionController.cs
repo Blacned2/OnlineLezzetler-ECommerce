@@ -30,19 +30,6 @@ namespace OnlineLezzetler.Api.Controllers
                 return NotFound(Regions.ResultObject);
             }
         }
-        [HttpGet, Route("RegionsWithCountries")]
-        public ActionResult<List<RegionDto>> RegionListWithCountries()
-        {
-            var regions = _regionService.GetRegionsWithCountries();
-            if (regions.ResultType == ResultType.Success)
-            {
-                return Ok(regions.ResultObject);
-            }
-            else
-            {
-                return NotFound(regions.ResultObject);
-            }
-        }
 
         [HttpGet,Route("GetByCountryID")]
         public ActionResult<List<RegionDto>> RegionListByCountryID(int id)

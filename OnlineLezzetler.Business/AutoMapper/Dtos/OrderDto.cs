@@ -12,10 +12,10 @@ namespace OnlineLezzetler.Business.AutoMapper.Dtos
         public int CustomerID { get; set; }
         public int DetailID { get; set; }
         public int ShipperID { get; set; }
-        public int ShippedCityID { get; set; }
-        public DateTime OrderDate { get; set; }
-        public DateTime RequiredDate { get; set; }
-        public DateTime ShippedTime { get; set; }
+        public int? ShippedCityID { get; set; }
+        public DateTime? OrderDate { get; set; }
+        public DateTime? RequiredDate { get; set; }
+        public DateTime? ShippedTime { get; set; }
         public DateTime? DeliveredDate { get; set; }
         public bool? IsCancelled { get; set; } = false;
         public bool IsDelivered { get; set; } = false;

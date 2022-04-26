@@ -31,7 +31,7 @@ namespace OnlineLezzetler.Business.Concrete
 
                 if (result != null)
                 {
-                    if(result.ShippedDate > DateTime.Now)
+                    if (result.OrderDate <= result.OrderDate.AddMinutes(2)) // We cancel the order in 2 min ,then we can't
                     {
                         result.IsCancelled = true;
                     }
@@ -55,39 +55,6 @@ namespace OnlineLezzetler.Business.Concrete
                 searchResult.ResultMessage = ex.Message;
                 searchResult.ResultObject = false;
                 searchResult.ResultType = ResultType.Error;
-            }
-            return searchResult;
-        }
-
-        public SearchResult<bool> EditOrder(int id, OrderDto order, OrderDetailDto details)
-        {
-            SearchResult<bool> searchResult = new();
-
-            try
-            {
-                var result = _context.Orders.Find(id);
-
-                if (result != null && (result.ShippedDate == null || result.ShippedDate > DateTime.Now))
-                {
-                    result.OrderDate = DateTime.Now;
-                    result.OrderDetail.Quantity = NullValidationHelper.BindIfNotZero(details.Quantity, result.OrderDetail.Quantity);
-                    result.RequiredDate = DateTime.Now.AddMinutes(30);
-                    result.ShippedCityID = NullValidationHelper.BindIfNotZero(order.ShippedCityID, (int)result.ShippedCityID);
-
-                    result.OrderDetail.OrderPrice = details.Products.UnitPrice;
-                    _context.Orders.Update(result);
-                    _context.SaveChanges();
-
-                    searchResult.ResultMessage = string.Empty;
-                    searchResult.ResultObject = true;
-                    searchResult.ResultType = ResultType.Success;
-                }
-            }
-            catch (Exception ex)
-            {
-                searchResult.ResultMessage = ex.Message;
-                searchResult.ResultType = ResultType.Error;
-                searchResult.ResultObject = false;
             }
             return searchResult;
         }
@@ -164,7 +131,7 @@ namespace OnlineLezzetler.Business.Concrete
                               on
                               order.DetailID equals detail.DetailID
                               join
-                              product in _context.Products 
+                              product in _context.Products
                               on
                               detail.ProductID equals product.ProductID
                               join
@@ -174,7 +141,7 @@ namespace OnlineLezzetler.Business.Concrete
                               where supplier.SupplierID == supplierID && order.OrderID == orderID
                               select order).FirstOrDefault();
 
-                if(result != null)
+                if (result != null)
                 {
                     searchResult.ResultMessage = string.Empty;
                     searchResult.ResultObject = _mapper.Map<OrderDto>(result);
@@ -236,6 +203,21 @@ namespace OnlineLezzetler.Business.Concrete
 
             try
             {
+                if(order.ShipperID == 4)
+                {
+                    //TODO
+                    //order.ShipperID = (from o in _context.Orders
+                    //                   join od in _context.OrderDetails
+                    //                   on o.DetailID equals od.DetailID
+                    //                   join p in _context.Products
+                    //                   on od.ProductID equals p.ProductID
+                    //                   join s in _context.Suppliers
+                    //                   on p.SupplierID equals s.SupplierID
+                    //                   select s.Phone).First();
+                }
+                order.ShippedCityID = (from u in _context.Orders
+                                       select u.Customer.CityID).FirstOrDefault();
+
                 _context.Orders.Add(_mapper.Map<Order>(order));
                 _context.SaveChanges();
 
@@ -263,7 +245,7 @@ namespace OnlineLezzetler.Business.Concrete
                               && u.IsDelivered == false
                               select u).FirstOrDefault();
 
-                if(result != null)
+                if (result != null)
                 {
                     result.IsDelivered = true;
                     _context.Orders.Update(result);

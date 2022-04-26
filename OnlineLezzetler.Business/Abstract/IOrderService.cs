@@ -15,9 +15,8 @@ namespace OnlineLezzetler.Business.Abstract
         SearchResult<OrderDto> GetCustomerOrder(int customerID,int orderID); //Customer's single order
         SearchResult<HashSet<OrderDto>> GetSupplierOrders(int supplierID); //Supplier's orders
         SearchResult<OrderDto> GetSupplierOrder(int supplierID, int orderID); //Supplier's single order
-        SearchResult<bool> NewOrder(OrderDto order); //TODO
-        SearchResult<bool> EditOrder(int id,OrderDto order,OrderDetailDto details);
-        SearchResult<bool> CancelOrder(int id);
-        SearchResult<bool> OrderDelivered(int id);
+        SearchResult<bool> NewOrder(OrderDto order); 
+        SearchResult<bool> CancelOrder(int id); //If the order is 3min or below, we can cancel it
+        SearchResult<bool> OrderDelivered(int id); //Order delivered
     }
 }

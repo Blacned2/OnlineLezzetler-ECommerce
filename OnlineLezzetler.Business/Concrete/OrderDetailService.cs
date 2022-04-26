@@ -15,20 +15,20 @@ namespace OnlineLezzetler.Business.Concrete
     public class OrderDetailService : BaseAppService, IOrderDetailService
     {
         private readonly IMapper _mapper;
-        public OrderDetailService(OnlineLezzetlerContext context,IMapper mapper) : base(context)
+        public OrderDetailService(OnlineLezzetlerContext context, IMapper mapper) : base(context)
         {
             this._mapper = mapper;
         }
 
-        public SearchResult<OrderDetailDto> GetOrderDetail(int id)
+        public SearchResult<OrderDetailDto> GetOrderDetail(int orderDetailID)
         {
             SearchResult<OrderDetailDto> searchResult = new();
 
             try
             {
-                var result = _context.OrderDetails.Find(id);
+                var result = _context.OrderDetails.Find(orderDetailID);
 
-                if(result != null)
+                if (result != null)
                 {
                     searchResult.ResultMessage = string.Empty;
                     searchResult.ResultObject = _mapper.Map<OrderDetailDto>(result);
@@ -48,23 +48,23 @@ namespace OnlineLezzetler.Business.Concrete
             return searchResult;
         }
 
-        public SearchResult<List<OrderDetailDto>> GetOrderDetails(int id)
+        public SearchResult<List<OrderDetailDto>> GetSupplierOrderDetails(int supplierID)
         {
             SearchResult<List<OrderDetailDto>> searchResult = new();
 
             try
             {
-                var results = (from u in _context.OrderDetails
-                               join p in _context.Products on u.ProductID equals p.ProductID
-                               join s in _context.Suppliers on p.SupplierID equals s.SupplierID
-                               where s.SupplierID == id
-                               select u).ToList();
+                var results = (from od in _context.OrderDetails
+                               join p in _context.Products
+                               on od.ProductID equals p.ProductID
+                               where p.SupplierID == supplierID
+                               select od).ToList();
 
                 if (results.Any())
                 {
-                    searchResult.ResultMessage= string.Empty;
+                    searchResult.ResultMessage = string.Empty;
                     searchResult.ResultObject = _mapper.Map<List<OrderDetailDto>>(results);
-                    searchResult.ResultType= ResultType.Success;
+                    searchResult.ResultType = ResultType.Success;
                 }
                 else
                 {
@@ -75,6 +75,59 @@ namespace OnlineLezzetler.Business.Concrete
             catch (Exception ex)
             {
                 searchResult.ResultMessage = ex.Message;
+                searchResult.ResultType = ResultType.Error;
+            }
+            return searchResult;
+        }
+
+        public SearchResult<List<OrderDetailDto>> GetCustomerOrderDetails(int customerID)
+        {
+            SearchResult<List<OrderDetailDto>> searchResult = new();
+
+            try
+            {
+                var results = (from o in _context.Orders
+                               join od in _context.OrderDetails
+                               on o.DetailID equals od.DetailID
+                               where o.CustomerID == customerID
+                               select od).ToList();
+
+                if (results.Any())
+                {
+                    searchResult.ResultMessage = string.Empty;
+                    searchResult.ResultObject = _mapper.Map<List<OrderDetailDto>>(results);
+                    searchResult.ResultType = ResultType.Success;
+                }
+                else
+                {
+                    searchResult.ResultMessage = "Not found !";
+                    searchResult.ResultType = ResultType.Warning;
+                }
+            }
+            catch (Exception ex)
+            {
+                searchResult.ResultMessage = ex.Message;
+                searchResult.ResultType = ResultType.Error;
+            }
+            return searchResult;
+        }
+
+        public SearchResult<bool> AddOrderDetail(OrderDetailDto orderDetail)
+        {
+            SearchResult<bool> searchResult = new();
+
+            try
+            {
+                _context.OrderDetails.Add(_mapper.Map<OrderDetail>(orderDetail));
+                _context.SaveChanges();
+                searchResult.ResultMessage = string.Empty;
+                searchResult.ResultObject = true;
+                searchResult.ResultType = ResultType.Success;
+            }
+            catch (Exception ex)
+            {
+                searchResult.ResultMessage = ex.Message;
+                searchResult.ResultObject = false;
                 searchResult.ResultType = ResultType.Error;
             }
             return searchResult;
