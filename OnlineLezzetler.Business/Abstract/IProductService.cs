@@ -11,6 +11,7 @@ namespace OnlineLezzetler.Business.Abstract
     public interface IProductService
     {
         SearchResult<HashSet<ProductDto>> GetProducts();
+        SearchResult<List<ProductDto>> GetProductBySupplierID(int id);
         SearchResult<ProductDto> GetProduct(int id);
         SearchResult<bool> DeleteProduct(int id);
         SearchResult<bool> CreateOrEditProduct(int? id, ProductDto product);

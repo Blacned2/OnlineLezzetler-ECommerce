@@ -129,6 +129,38 @@ namespace OnlineLezzetler.Business.Concrete
             return searchResult;
         }
 
+        public SearchResult<List<ProductDto>> GetProductBySupplierID(int id)
+        {
+            SearchResult<List<ProductDto>> searchResult = new();
+
+            try
+            {
+                var results = (from s in _context.Suppliers
+                               join p in _context.Products
+                               on s.SupplierID equals p.SupplierID
+                               where p.SupplierID == id
+                               select p).ToList();
+
+                if(results.Any())
+                {
+                    searchResult.ResultMessage = string.Empty;
+                    searchResult.ResultObject = _mapper.Map<List<ProductDto>>(results);
+                    searchResult.ResultType = ResultType.Success;
+                }
+                else
+                {
+                    searchResult.ResultMessage = "Not found !";
+                    searchResult.ResultType = ResultType.Warning;
+                }
+            }
+            catch (Exception ex)
+            {
+                searchResult.ResultMessage = ex.Message;
+                searchResult.ResultType = ResultType.Error;
+            }
+            return searchResult;
+        }
+
         public SearchResult<HashSet<ProductDto>> GetProducts()
         {
             SearchResult<HashSet<ProductDto>> searchResult = new();

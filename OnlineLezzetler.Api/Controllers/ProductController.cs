@@ -30,6 +30,19 @@ namespace OnlineLezzetler.Api.Controllers
             };
         }
 
+        [HttpGet,Route("ProductListBySupplierID/{id}")]
+        public ActionResult<List<ProductDto>> ProductListBySupplier(int id)
+        {
+            var result = _productService.GetProductBySupplierID(id);
+            return result.ResultType switch
+            {
+                ResultType.Success => Ok(result.ResultObject),
+                ResultType.Warning => NotFound(result.ResultObject),
+                ResultType.Error => BadRequest(result.ResultObject),
+                _ => BadRequest(result.ResultObject)
+            };
+        }
+        
         [HttpGet, Route("{id}")]
         public ActionResult GetSingleProduct(int id)
         {
